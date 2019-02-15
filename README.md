@@ -64,6 +64,7 @@ export NUMBAPRO_LIBDEVICE=/usr/local/cuda/nvvm/libdevice
 ```
 
 ### 4. add second.pytorch/ to PYTHONPATH
+export PYTHONPATH=/notebooks/second.pytorch/
 
 ## Prepare dataset
 
