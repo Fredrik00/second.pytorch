@@ -1,10 +1,10 @@
 var KittiViewer = function (pointCloud, logger, imageCanvas) {
-    this.rootPath = "/path/to/kitti";
-    this.infoPath = "/path/to/infos.pkl";
-    this.detPath = "/path/to/results.pkl";
-    this.backend = "http://127.0.0.1:7000";
-    this.checkpointPath = "/path/to/tckpt";
-    this.configPath = "/path/to/config";
+    this.rootPath = "/notebooks/DATA/Kitti/object" //"/path/to/kitti";
+    this.infoPath = "/notebooks/DATA/Kitti/object/kitti_infos_val.pkl" //"/path/to/infos.pkl";
+    this.detPath = "/notebooks/second_models/all_test/eval_results/step_74240/result.pkl" //"/path/to/results.pkl";
+    this.backend = "http://nap.idi.ntnu.no:16666"; //"http://127.0.0.1:7000";
+    this.checkpointPath = "/notebooks/second_models/all_test/voxelnet-74240.tckpt" //"/path/to/tckpt";
+    this.configPath = "/notebooks/second_models/all_test/pipeline.config" //"/path/to/config";
     this.drawDet = false;
     this.imageIndexes = [];
     this.imageIndex = 1;
