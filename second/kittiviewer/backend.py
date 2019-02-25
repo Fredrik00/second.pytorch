@@ -309,7 +309,7 @@ def inference_by_idx():
 
 
 def main(port=16666):
-    app.run(host='127.0.0.1', threaded=True, port=port)
+    app.run(host='0.0.0.0', threaded=True, port=port)
 
 if __name__ == '__main__':
     fire.Fire()
