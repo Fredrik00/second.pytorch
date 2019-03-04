@@ -194,14 +194,14 @@ def get_kitti_image_info(path,
             Tr_velo_to_cam = np.array([
                 float(info) for info in lines[5].split(' ')[1:13]
             ]).reshape([3, 4])
-            Tr_imu_to_velo = np.array([
-                float(info) for info in lines[6].split(' ')[1:13]
-            ]).reshape([3, 4])
+            #Tr_imu_to_velo = np.array([
+            #    float(info) for info in lines[6].split(' ')[1:13]
+            #]).reshape([3, 4])
             if extend_matrix:
                 Tr_velo_to_cam = _extend_matrix(Tr_velo_to_cam)
-                Tr_imu_to_velo = _extend_matrix(Tr_imu_to_velo)
+            #    Tr_imu_to_velo = _extend_matrix(Tr_imu_to_velo)
             image_info['calib/Tr_velo_to_cam'] = Tr_velo_to_cam
-            image_info['calib/Tr_imu_to_velo'] = Tr_imu_to_velo
+            #image_info['calib/Tr_imu_to_velo'] = Tr_imu_to_velo
         if annotations is not None:
             image_info['annos'] = annotations
             add_difficulty_to_annos(image_info)
