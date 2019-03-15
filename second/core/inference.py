@@ -86,6 +86,7 @@ class InferenceContext:
             'Trv2c': Trv2c,
             'P2': P2,
             'image_shape': image_shape,
+            'image_idx': 0,  # Small hack
             # 'pointcloud_num_features': num_point_features,
         }
         out_size_factor = model_cfg.rpn.layer_strides[0] // model_cfg.rpn.upsample_strides[0]
@@ -106,6 +107,7 @@ class InferenceContext:
             anchor_cache=self.anchor_cache,
             out_size_factor=out_size_factor,
             out_dtype=np.float32)
+        example["image_idx"] = 0
         example["image_shape"] = input_dict["image_shape"]
         example["points"] = points
         if "anchors_mask" in example:

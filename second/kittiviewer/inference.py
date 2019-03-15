@@ -103,7 +103,6 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
 
     t = time.time()
     inputs = BACKEND.inference_ctx.get_inference_input_dict_v2(calib, image_shape, points)
-    inputs["image_idx"] = 0 # Small hack
     print("inputs: ", inputs)
     print("input preparation time:", time.time() - t)
     t = time.time()
