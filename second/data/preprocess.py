@@ -93,7 +93,7 @@ def prep_pointcloud(input_dict,
     Trv2c = input_dict["Trv2c"]
     P2 = input_dict["P2"]
     unlabeled_training = unlabeled_db_sampler is not None
-    image_idx = input_dict["image_idx"]
+    #image_idx = input_dict["image_idx"]
 
     if reference_detections is not None:
         C, R, T = box_np_ops.projection_matrix_to_CRT_kitti(P2)
