@@ -96,7 +96,7 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
     rect = calib['R0_rect']
     P2 = calib['P2']
     Trv2c = calib['Tr_velo_to_cam']
-    if image_shape:
+    if image_shape is not None:
         points = box_np_ops.remove_outside_points(points, rect, Trv2c, P2, image_shape)
     wh = np.array(image_shape[::-1])
     whwh = np.tile(wh, 2)
