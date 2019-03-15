@@ -21,14 +21,76 @@ from second.utils.progress_bar import list_bar
 
 class SecondBackend:
     def __init__(self):
+        self.root_path = None 
+        self.info_path = None 
+        self.kitti_infos = None
+        self.image_idxes = None
         self.dt_annos = None
         self.inference_ctx = None
 
 def build_network(BACKEND):
+    with open(BACKEND.info_path, 'rb') as f:
+        BACKEND.kitti_infos = pickle.load(f)
+    BACKEND.image_idxes = [info["image_idx"] for info in BACKEND.kitti_infos]
+    print(BACKEND.kitti_infos[0])
     BACKEND.inference_ctx = TorchInferenceContext()
     BACKEND.inference_ctx.build(BACKEND.config_path)
     BACKEND.inference_ctx.restore(BACKEND.checkpoint_path)
     print("build_network successful!")
+
+def inference_by_idx(BACKEND, image_idx):
+    idx = BACKEND.image_idxes.index(image_idx)
+    kitti_info = BACKEND.kitti_infos[idx]
+
+    v_path = str(Path(BACKEND.root_path) / kitti_info['velodyne_path'])
+    num_features = 4
+    points = np.fromfile(
+        str(v_path), dtype=np.float32,
+        count=-1).reshape([-1, num_features])
+    rect = kitti_info['calib/R0_rect']
+    P2 = kitti_info['calib/P2']
+    Trv2c = kitti_info['calib/Tr_velo_to_cam']
+    if 'img_shape' in kitti_info:
+        image_shape = kitti_info['img_shape']
+        points = box_np_ops.remove_outside_points(
+            points, rect, Trv2c, P2, image_shape)
+    img_shape = kitti_info["img_shape"] # hw
+    wh = np.array(img_shape[::-1])
+    whwh = np.tile(wh, 2)
+
+    t = time.time()
+    inputs = BACKEND.inference_ctx.get_inference_input_dict(
+        kitti_info, points)
+    print("inputs: ", inputs)
+    print("input preparation time:", time.time() - t)
+    t = time.time()
+    with BACKEND.inference_ctx.ctx():
+        dt_annos = BACKEND.inference_ctx.inference(inputs)[0]
+    print("detection time:", time.time() - t)
+    dims = dt_annos['dimensions']
+    num_obj = dims.shape[0]
+    loc = dt_annos['location']
+    rots = dt_annos['rotation_y']
+    labels = dt_annos['name']
+    bbox = dt_annos['bbox'] / whwh
+
+    dt_boxes_camera = np.concatenate(
+        [loc, dims, rots[..., np.newaxis]], axis=1)
+    dt_boxes = box_np_ops.box_camera_to_lidar(
+        dt_boxes_camera, rect, Trv2c)
+    box_np_ops.change_box3d_center_(dt_boxes, src=[0.5, 0.5, 0], dst=[0.5, 0.5, 0.5])
+    locs = dt_boxes[:, :3]
+    dims = dt_boxes[:, 3:6]
+    rots = np.concatenate([np.zeros([num_obj, 2], dtype=np.float32), -dt_boxes[:, 6:7]], axis=1)
+
+    print("dt_locs: ", locs.tolist())
+    print("dt_dims: ", dims.tolist())
+    print("dt_rots: ", rots.tolist())
+    print("dt_labels: ", labels.tolist())
+    print("dt_scores: ", dt_annos["score"].tolist())
+    print("dt_bbox: ", bbox.tolist())
+
+    print("Inference completed")
 
 def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape as [h, w]
     rect = calib['R0_rect']
@@ -41,7 +103,7 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
 
     t = time.time()
     inputs = BACKEND.inference_ctx.get_inference_input_dict_v2(calib, image_shape, points)
-    #print("inputs: ", inputs)
+    print("inputs: ", inputs)
     print("input preparation time:", time.time() - t)
     t = time.time()
     with BACKEND.inference_ctx.ctx():
@@ -74,13 +136,15 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
 
 if __name__ == "__main__":
     BACKEND = SecondBackend()
- 
+
+    BACKEND.root_path = "/notebooks/DATA/Kitti/object"
+    BACKEND.info_path = "/notebooks/DATA/Kitti/object/kitti_infos_test.pkl"
     BACKEND.checkpoint_path = "/notebooks/second_models/all_test/voxelnet-74240.tckpt"
     BACKEND.config_path = "/notebooks/second_models/all_test/pipeline.config"
 
     image_shape = np.array([375, 1242])
 
-    v_path = "/notebooks/DATA/Kitti/object/testing/velodyne/000001.bin"
+    v_path = os.path.join(BACKEND.root_path, "testing/velodyne/000001.bin")
     num_features = 4
     points = np.fromfile(str(v_path), dtype=np.float32, count=-1).reshape([-1, num_features])
     
@@ -99,4 +163,5 @@ if __name__ == "__main__":
                                         [ 0.000000e+00,  0.000000e+00,  0.000000e+00,  1.000000e+00]])
 
     build_network(BACKEND)
+    #inference_by_idx(BACKEND, 0)
     inference_by_input(BACKEND, points, calib, image_shape)
