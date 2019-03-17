@@ -359,7 +359,7 @@ def main(BACKEND, image, points, calib):
     The prediction score and IoU with ground truth can be toggled on or off
     as well, shown as (score, IoU) above the detection.
     """
-    annos = inference_by_input(BACKEND, points, calib, image.shape)
+    annos = inference_by_input(BACKEND, points, calib, image.shape[:2])
 
     pred_objects = [dict() for prediction in annos["labels"]]
 
@@ -410,7 +410,7 @@ if __name__ == '__main__':
     BACKEND.config_path = "/notebooks/second_models/all_test/pipeline.config"
     build_network(BACKEND)
 
-    image = np.array(Image.open("/notebooks/DATA/Kitti/object/testing/images_2/000001.png"), dtype=np.uint8)
+    image = np.array(Image.open("/notebooks/DATA/Kitti/object/testing/image_2/000001.png"), dtype=np.uint8)
 
     v_path = "/notebooks/DATA/Kitti/object/testing/velodyne/000001.bin"
     num_features = 4
