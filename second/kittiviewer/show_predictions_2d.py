@@ -76,8 +76,6 @@ def visualization(image, display=True, fig_size=(15, 9.15)):
 
     Keyword arguments:
     :param image_dir -- directory of image files in the wavedata
-    :param index -- index of the image file to present
-    :param flipped -- flag to enable image flipping
     :param display -- display the image in non-blocking fashion
     :param fig_size -- (optional) size of the figure
     """
@@ -207,67 +205,23 @@ def compute_orientation_3d(obj, p):
 
 
 
-def draw_box_2d(ax, obj, test_mode=False, color_tm='g'):
+def draw_box_2d(ax, obj, color_tm='g'):
     """Draws the 2D boxes given the subplot and the object properties
 
     Keyword arguments:
     :param ax -- subplot handle
     :param obj -- object file to draw bounding box
     """
-
-    if not test_mode:
-        # define colors
-        color_table = ["#00cc00", 'y', 'r', 'w']
-        trun_style = ['solid', 'dashed']
-
-        if obj.type != 'DontCare':
-            # draw the boxes
-            trc = int(obj.truncation > 0.1)
-            rect = patches.Rectangle((obj.x1, obj.y1),
-                                     obj.x2 - obj.x1,
-                                     obj.y2 - obj.y1,
-                                     linewidth=2,
-                                     edgecolor=color_table[int(obj.occlusion)],
-                                     linestyle=trun_style[trc],
-                                     facecolor='none')
-
-            # draw the labels
-            label = "%s\n%1.1f rad" % (obj.type, obj.alpha)
-            x = (obj.x1 + obj.x2) / 2
-            y = obj.y1
-            ax.text(x,
-                    y,
-                    label,
-                    verticalalignment='bottom',
-                    horizontalalignment='center',
-                    color=color_table[int(obj.occlusion)],
-                    fontsize=8,
-                    backgroundcolor='k',
-                    fontweight='bold')
-
-        else:
-            # Create a rectangle patch
-            rect = patches.Rectangle((obj.x1, obj.y1),
-                                     obj.x2 - obj.x1,
-                                     obj.y2 - obj.y1,
-                                     linewidth=2,
-                                     edgecolor='c',
-                                     facecolor='none')
-
-        # Add the patch to the Axes
-        ax.add_patch(rect)
-    else:
-        # we are in test mode, so customize the boxes differently
-        # draw the boxes
-        # we also don't care about labels here
-        rect = patches.Rectangle((obj.x1, obj.y1),
-                                 obj.x2 - obj.x1,
-                                 obj.y2 - obj.y1,
-                                 linewidth=2,
-                                 edgecolor=color_tm,
-                                 facecolor='none')
-        # Add the patch to the Axes
-        ax.add_patch(rect)
+    # draw the boxes
+    # we also don't care about labels here
+    rect = patches.Rectangle((obj.x1, obj.y1),
+                                obj.x2 - obj.x1,
+                                obj.y2 - obj.y1,
+                                linewidth=2,
+                                edgecolor=color_tm,
+                                facecolor='none')
+    # Add the patch to the Axes
+    ax.add_patch(rect)
 
 
 def draw_box_3d(ax, obj, p, show_orientation=True,
@@ -289,7 +243,6 @@ def draw_box_3d(ax, obj, p, show_orientation=True,
     :param box_color: optional, use a custom color for box (instead of
         the default color_table.
     """
-
     corners3d = compute_box_corners_3d(obj)
     corners, face_idx = project_box3d_to_image(corners3d, p)
 
@@ -335,79 +288,6 @@ def draw_box_3d(ax, obj, p, show_orientation=True,
             ax.plot(x, y, linewidth=2, color='k')
 
 
-def build_bbs_from_objects(obj_list, class_needed):
-    """ Converts between a list of objects and a numpy array containing the
-        bounding boxes.
-
-     :param obj_list: an object list as per object class
-     :param class_needed: 'Car', 'Pedestrian' ...  If no class filtering is
-        needed use 'All'
-
-     :return boxes_2d : a numpy array formed as a list of boxes in the form
-        [boxes_frame_1, ... boxes_frame_n], where boxes_frame_n is a numpy
-        array containing all bounding boxes in the frame n with the format:
-        [[x1, y1, x2, y2], [x1, y1, x2, y2]].
-
-    :return boxes_3d : a numpy array formed as a list of boxes in the form
-        [boxes_frame_1, ... boxes_frame_n], where boxes_frame_n is a numpy
-        array containing all bounding boxes in the frame n with the format:
-        [[ry, l, h, w, tx, ty, tz],...[ry, l, h, w, tx, ty, tz]]
-
-    :return scores : a numpy array of the form
-        [[scores_frame_1],
-         ...,
-         [scores_frame_n]]
-     """
-
-    if class_needed == 'All':
-        obj_detections = obj_list
-    else:
-        if isinstance(class_needed, str):
-            obj_detections = [detections for detections in obj_list if
-                              detections.type == class_needed]
-        elif isinstance(class_needed, list):
-            obj_detections = [detections for detections in obj_list if
-                              detections.type in class_needed]
-        else:
-            raise TypeError("Invalid type for class_needed, {} should be "
-                            "str or list".format(type(class_needed)))
-
-    # Build A Numpy Array Of 2D Bounding Boxes
-    x1 = [obj.x1 for obj in obj_detections]
-    y1 = [obj.y1 for obj in obj_detections]
-    x2 = [obj.x2 for obj in obj_detections]
-    y2 = [obj.y2 for obj in obj_detections]
-
-    ry = [obj.ry for obj in obj_detections]
-    l = [obj.l for obj in obj_detections]
-    h = [obj.h for obj in obj_detections]
-    w = [obj.w for obj in obj_detections]
-    tx = [obj.t[0] for obj in obj_detections]
-    ty = [obj.t[1] for obj in obj_detections]
-    tz = [obj.t[2] for obj in obj_detections]
-    scores = [obj.score for obj in obj_detections]
-
-    num_objs = len(obj_detections)
-    boxes_2d = np.zeros((num_objs, 4))
-    boxes_3d = np.zeros((num_objs, 7))  # [ry, l, h, w, tx, ty, tz]
-
-    for it in range(num_objs):
-        boxes_2d[it] = np.array([x1[it],
-                                 y1[it],
-                                 x2[it],
-                                 y2[it]])
-
-        boxes_3d[it] = np.array([ry[it],
-                                 l[it],
-                                 h[it],
-                                 w[it],
-                                 tx[it],
-                                 ty[it],
-                                 tz[it]])
-
-    return boxes_2d, boxes_3d, scores
-
-
 def main(BACKEND, image, points, calib):
     """This demo shows RPN proposals and AVOD predictions in 3D
     and 2D in image space. Given certain thresholds for proposals
@@ -431,10 +311,11 @@ def main(BACKEND, image, points, calib):
         obj.truncation = 0
         obj.occlusion = 0
         obj.alpha = annos["alpha"][i]
-        obj.x1, obj.x2, obj.x3, obj.x4 = annos["bbox"][i]
-        obj.h, obj.w, obj.l = annos["dims"][i]
-        obj.t = tuple(annos["locs"][i])
-        obj.ry = annos["rots"][i][2]
+        obj.x1, obj.y1, obj.x2, obj.y2 = annos["bbox"][i]
+        obj.w, obj.l, obj.h = annos["dims"][i]  # Should be correct
+        loc = annos["locs"][i]
+        obj.t = tuple(-loc[1], -loc[2], loc[0])  # Might be incorrect order
+        obj.ry = annos["rots"][i][2]  # Only one not 0
 
     fig_size = (10, 6.1)
     gt_classes = ['Car', 'Pedestrian', 'Cyclist']
@@ -455,7 +336,7 @@ def draw_predictions(objects, prop_2d_axes, prop_3d_axes, p_matrix):
     # Draw filtered ground truth boxes
     for obj in objects:
         # Draw 2D boxes
-        draw_box_2d(prop_2d_axes, obj, test_mode=True, color_tm='r')
+        draw_box_2d(prop_2d_axes, obj, color_tm='r')
 
         # Draw 3D boxes
         draw_box_3d(prop_3d_axes, obj, p_matrix,
@@ -513,7 +394,6 @@ def read_calibration(path):
     tr_rect = [float(tr_rect[i]) for i in range(len(tr_rect))]
     tr_rect = np.reshape(tr_rect, (3, 3))
     tr_rect = np.insert(tr_rect, 3, 0, axis=1)
-    print(tr_rect)
     calib["R0_rect"] = np.vstack((tr_rect, [0, 0, 0, 1]))
 
     # Read in velodyne to cam matrix
