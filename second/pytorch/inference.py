@@ -9,7 +9,7 @@ from second.core.inference import InferenceContext
 from second.builder import target_assigner_builder, voxel_builder
 from second.pytorch.builder import box_coder_builder, second_builder
 from second.pytorch.models.voxelnet import VoxelNet
-from second.pytorch.train import predict_kitti_to_anno, example_convert_to_torch
+from second.pytorch.train import predict_kitti_to_anno, example_convert_to_torch, predict_kitti_to_list
 
 
 class TorchInferenceContext(InferenceContext):
