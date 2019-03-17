@@ -314,7 +314,7 @@ def main(BACKEND, image, points, calib):
         obj.x1, obj.y1, obj.x2, obj.y2 = annos["bbox"][i]
         obj.w, obj.l, obj.h = annos["dims"][i]  # Different order from Kitti
         loc = annos["locs"][i]
-        obj.t = (-loc[1], -loc[2] + obj.h/2, loc[0])  # Seems to be in lidar format initially
+        obj.t = (-loc[1], -loc[2] + obj.h/2, loc[0])  # Seems to be in lidar format initially with centroid not on ground plane
         obj.ry = -annos["rots"][i][2]  # Only value not 0, negative seems more correct
 
     fig_size = (10, 6.1)
