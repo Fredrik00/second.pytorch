@@ -63,7 +63,7 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
     dims = dt_boxes[:, 3:6]
     rots = np.concatenate([np.zeros([num_obj, 2], dtype=np.float32), -dt_boxes[:, 6:7]], axis=1)
 
-    annos = {"locs": locs.tolist(), "dims": dims.tolist(), "rots": rots.tolist(),
+    annos = {"locs": locs.tolist(), "dims": dims.tolist(), "rots": rots.tolist(), "alpha": dt_annos["alpha"],
             "labels": labels.tolist(), "scores": dt_annos["score"].tolist(), "bbox": dt_annos["bbox"].tolist()}
     
     print("annos: ", annos)
