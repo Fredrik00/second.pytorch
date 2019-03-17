@@ -1,6 +1,5 @@
 from inference import SecondBackend, build_network, inference_by_input
 import numpy as np
-import csv
 
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -443,7 +442,7 @@ def main(BACKEND, image, points, calib):
 
     prop_fig, prop_2d_axes, prop_3d_axes = visualization(image, display=False)
 
-    draw_predictions(pred_objects, prop_2d_axes, prop_3d_axes, calib["P2"])
+    draw_predictions(pred_objects, prop_2d_axes, prop_3d_axes, calib["P2"][:3])
 
     out_name = "images_2d/out.png"
     plt.savefig(out_name)
@@ -465,62 +464,6 @@ def draw_predictions(objects, prop_2d_axes, prop_3d_axes, p_matrix):
                               double_line=False)
 
 
-def read_calibration(path):
-    """Reads in Calibration file from Kitti Dataset.
-
-    Keyword Arguments:
-    ------------------
-    calib_dir : Str
-                Directory of the calibration files.
-
-    img_idx : Int
-              Index of the image.
-
-    cam : Int
-          Camera used from 0-3.
-
-    Returns:
-    --------
-    frame_calibration_info : FrameCalibrationData
-                             Contains a frame's full calibration data.
-
-    """
-    calib = dict()
-    data_file = open(path, 'r')
-    data_reader = csv.reader(data_file, delimiter=' ')
-    data = []
-
-    for row in data_reader:
-        data.append(row)
-
-    data_file.close()
-
-    p_all = []
-
-    for i in range(4):
-        p = data[i]
-        p = p[1:]
-        p = [float(p[i]) for i in range(len(p))]
-        p = np.reshape(p, (3, 4))
-        p_all.append(p)
-
-    calib["P2"] = p_all[2]
-
-    # Read in rectification matrix
-    tr_rect = data[4]
-    tr_rect = tr_rect[1:]
-    tr_rect = [float(tr_rect[i]) for i in range(len(tr_rect))]
-    calib["R0_rect"] = np.reshape(tr_rect, (3, 3))
-
-    # Read in velodyne to cam matrix
-    tr_v2c = data[5]
-    tr_v2c = tr_v2c[1:]
-    tr_v2c = [float(tr_v2c[i]) for i in range(len(tr_v2c))]
-    calib['Tr_velo_to_cam'] = np.reshape(tr_v2c, (3, 4))
-
-    return calib
-
-
 if __name__ == '__main__':
     BACKEND = SecondBackend()
     BACKEND.checkpoint_path = "/notebooks/second_models/all_test/voxelnet-74240.tckpt"
@@ -533,6 +476,18 @@ if __name__ == '__main__':
     num_features = 4
     points = np.fromfile(str(v_path), dtype=np.float32, count=-1).reshape([-1, num_features])
     
-    calib = read_calibration("/notebooks/DATA/Kitti/object/testing/calib/000001.txt")
+    calib = dict()
+    calib['P2'] = np.array([[7.215377e+02, 0.000000e+00, 6.095593e+02, 4.485728e+01],
+                            [0.000000e+00, 7.215377e+02, 1.728540e+02, 2.163791e-01],
+                            [0.000000e+00, 0.000000e+00, 1.000000e+00, 2.745884e-03],
+                            [0.000000e+00, 0.000000e+00, 0.000000e+00, 1.000000e+00]]) 
+    calib['R0_rect'] = np.array([[ 0.9999239 ,  0.00983776, -0.00744505,  0.        ],
+                                [-0.0098698 ,  0.9999421 , -0.00427846,  0.        ],
+                                [ 0.00740253,  0.00435161,  0.9999631 ,  0.        ],
+                                [ 0.        ,  0.        ,  0.        ,  1.        ]])
+    calib['Tr_velo_to_cam']= np.array([[ 7.533745e-03, -9.999714e-01, -6.166020e-04, -4.069766e-03],
+                                        [ 1.480249e-02,  7.280733e-04, -9.998902e-01, -7.631618e-02],
+                                        [ 9.998621e-01,  7.523790e-03,  1.480755e-02, -2.717806e-01],
+                                        [ 0.000000e+00,  0.000000e+00,  0.000000e+00,  1.000000e+00]])
 
     main(BACKEND, image, points, calib)
