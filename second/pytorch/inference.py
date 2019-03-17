@@ -84,5 +84,20 @@ class TorchInferenceContext(InferenceContext):
             model_cfg.post_center_limit_range, model_cfg.lidar_input)
         return result_annos
 
+    def _inference_to_list(self, example):
+        train_cfg = self.config.train_config
+        input_cfg = self.config.eval_input_reader
+        model_cfg = self.config.model.second
+        if train_cfg.enable_mixed_precision:
+            float_dtype = torch.half
+        else:
+            float_dtype = torch.float32
+        example_torch = example_convert_to_torch(example, float_dtype)
+        predictions = predict_kitti_to_list(
+            self.net, example_torch, list(
+                self.target_assigner.classes),
+            model_cfg.post_center_limit_range, model_cfg.lidar_input)
+        return predictions
+
     def _ctx(self):
         return None

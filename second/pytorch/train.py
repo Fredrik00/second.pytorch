@@ -549,6 +549,58 @@ def predict_kitti_to_anno(net,
     return annos
 
 
+def _predict_kitti_to_list(net,
+                           example,
+                           result_save_path,
+                           class_names,
+                           center_limit_range=None,
+                           lidar_input=False):
+    batch_image_shape = example['image_shape']
+    batch_imgidx = example['image_idx']
+    predictions_dicts = net(example)
+    # t = time.time()
+    for i, preds_dict in enumerate(predictions_dicts):
+        image_shape = batch_image_shape[i]
+        img_idx = preds_dict["image_idx"]
+        predictions = []
+        if preds_dict["bbox"] is not None or preds_dict["bbox"].size.numel():
+            box_2d_preds = preds_dict["bbox"].data.cpu().numpy()
+            box_preds = preds_dict["box3d_camera"].data.cpu().numpy()
+            scores = preds_dict["scores"].data.cpu().numpy()
+            box_preds_lidar = preds_dict["box3d_lidar"].data.cpu().numpy()
+            # write pred to file
+            box_preds = box_preds[:, [0, 1, 2, 4, 5, 3, 6]]  # lhw->hwl(label file format)
+            label_preds = preds_dict["label_preds"].data.cpu().numpy()
+            # label_preds = np.zeros([box_2d_preds.shape[0]], dtype=np.int32)
+            for box, box_lidar, bbox, score, label in zip(
+                    box_preds, box_preds_lidar, box_2d_preds, scores,
+                    label_preds):
+                if not lidar_input:
+                    if bbox[0] > image_shape[1] or bbox[1] > image_shape[0]:
+                        continue
+                    if bbox[2] < 0 or bbox[3] < 0:
+                        continue
+                # print(img_shape)
+                if center_limit_range is not None:
+                    limit_range = np.array(center_limit_range)
+                    if (np.any(box_lidar[:3] < limit_range[:3])
+                            or np.any(box_lidar[:3] > limit_range[3:])):
+                        continue
+                bbox[2:] = np.minimum(bbox[2:], image_shape[::-1])
+                bbox[:2] = np.maximum(bbox[:2], [0, 0])
+                result_dict = {
+                    'name': class_names[int(label)],
+                    'alpha': -np.arctan2(-box_lidar[1], box_lidar[0]) + box[6],
+                    'bbox': bbox,
+                    'location': box[:3],
+                    'dimensions': box[3:6],
+                    'rotation_y': box[6],
+                    'score': score,
+                }
+                predictions.append(result_dict)
+    return predictions
+
+
 def evaluate(config_path,
              model_dir,
              result_path=None,

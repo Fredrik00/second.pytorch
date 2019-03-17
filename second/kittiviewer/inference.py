@@ -45,7 +45,9 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
     print("input preparation time:", time.time() - t)
     t = time.time()
     with BACKEND.inference_ctx.ctx():
-        dt_annos = BACKEND.inference_ctx.inference(inputs)[0]
+        dt_annos = BACKEND.inference_ctx.inference_to_list(inputs)#[0]
+    print(dt_annos)
+    exit(1)
     print("detection time:", time.time() - t)
     dims = dt_annos['dimensions']
     num_obj = dims.shape[0]
