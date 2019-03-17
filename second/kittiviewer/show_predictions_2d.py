@@ -410,7 +410,7 @@ if __name__ == '__main__':
     BACKEND.config_path = "/notebooks/second_models/all_test/pipeline.config"
     build_network(BACKEND)
 
-    image = ...
+    image = np.array(Image.open("/notebooks/DATA/Kitti/object/testing/images_2/000001.png"), dtype=np.uint8)
 
     v_path = "/notebooks/DATA/Kitti/object/testing/velodyne/000001.bin"
     num_features = 4
