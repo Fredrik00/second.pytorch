@@ -63,14 +63,13 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
     dims = dt_boxes[:, 3:6]
     rots = np.concatenate([np.zeros([num_obj, 2], dtype=np.float32), -dt_boxes[:, 6:7]], axis=1)
 
-    print("dt_locs: ", locs.tolist())
-    print("dt_dims: ", dims.tolist())
-    print("dt_rots: ", rots.tolist())
-    print("dt_labels: ", labels.tolist())
-    print("dt_scores: ", dt_annos["score"].tolist())
-    print("dt_bbox: ", bbox.tolist())
+    annos = {"locs": locs.tolist(), "dims": dims.tolist(), "rots": rots.tolist(),
+            "labels": labels.tolist(), "scores": dt_annos["score"].tolist(), "bbox": bbox.tolist()}
+    
+    print("annos: ", annos)
+    print("Inference complete")
 
-    print("Inference completed")
+    return annos
 
 if __name__ == "__main__":
     BACKEND = SecondBackend()
