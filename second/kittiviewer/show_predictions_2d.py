@@ -427,9 +427,9 @@ def main(BACKEND, image, points, calib):
         obj = pred_objects[i]
 
         obj.type = annos["labels"][i]
-        obj.truncation = 0
-        obj.occlusion = 0
-        obj.alpha = -10
+        obj.truncation = annos["truncated"][i]
+        obj.occlusion = annos["occluded"][i]
+        obj.alpha = annos["alpha"][i]
         obj.x1, obj.x2, obj.x3, obj.x4 = annos["bbox"][i]
         obj.h, obj.w, obj.l = annos["dims"][i]
         obj.t = tuple(annos["locs"][i])
