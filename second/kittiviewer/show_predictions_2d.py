@@ -513,7 +513,7 @@ def read_calibration(path):
     tr_rect = [float(tr_rect[i]) for i in range(len(tr_rect))]
     tr_rect = [row.append(0) for row in tr_rect]
     tr_rect = np.reshape(tr_rect, (3, 4))
-    calib["R0_rect"] = np.vstack((tr_rect, [0, 0, 0, 1])
+    calib["R0_rect"] = np.vstack((tr_rect, [0, 0, 0, 1]))
 
     # Read in velodyne to cam matrix
     tr_v2c = data[5]
