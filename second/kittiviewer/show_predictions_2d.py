@@ -308,14 +308,14 @@ def main(BACKEND, image, points, calib):
         obj = pred_objects[i]
 
         obj.type = annos["labels"][i]
-        obj.truncation = 0
-        obj.occlusion = 0
-        obj.alpha = annos["alpha"][i]
+        obj.truncation = 0  # Not needed
+        obj.occlusion = 0  # Not needed
+        obj.alpha = annos["alpha"][i]  # Not needed
         obj.x1, obj.y1, obj.x2, obj.y2 = annos["bbox"][i]
-        obj.w, obj.l, obj.h = annos["dims"][i]  # Should be correct
+        obj.w, obj.l, obj.h = annos["dims"][i]  # Different order from Kitti
         loc = annos["locs"][i]
-        obj.t = tuple(-loc[1], -loc[2], loc[0])  # Might be incorrect order
-        obj.ry = annos["rots"][i][2]  # Only one not 0
+        obj.t = (-loc[1], -loc[2] + obj.h/2, loc[0])  # Seems to be in lidar format initially
+        obj.ry = -annos["rots"][i][2]  # Only value not 0, negative seems more correct
 
     fig_size = (10, 6.1)
     gt_classes = ['Car', 'Pedestrian', 'Cyclist']
@@ -412,6 +412,7 @@ if __name__ == '__main__':
     BACKEND.config_path = "/notebooks/second_models/all_test/pipeline.config"
     build_network(BACKEND)
 
+    # Loop below on more images
     image = np.array(Image.open("/notebooks/DATA/Kitti/object/testing/image_2/000001.png"), dtype=np.uint8)
 
     v_path = "/notebooks/DATA/Kitti/object/testing/velodyne/000001.bin"
@@ -419,6 +420,5 @@ if __name__ == '__main__':
     points = np.fromfile(str(v_path), dtype=np.float32, count=-1).reshape([-1, num_features])
     
     calib = read_calibration("/notebooks/DATA/Kitti/object/testing/calib/000001.txt")
-    print(calib)
 
     main(BACKEND, image, points, calib)
