@@ -84,7 +84,7 @@ class TorchInferenceContext(InferenceContext):
             model_cfg.post_center_limit_range, model_cfg.lidar_input)
         return result_annos
 
-    def _inference_to_list(self, example):
+    def inference_to_list(self, example):
         train_cfg = self.config.train_config
         input_cfg = self.config.eval_input_reader
         model_cfg = self.config.model.second

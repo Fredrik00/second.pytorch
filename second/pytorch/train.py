@@ -549,7 +549,7 @@ def predict_kitti_to_anno(net,
     return annos
 
 
-def _predict_kitti_to_list(net,
+def predict_kitti_to_list(net,
                            example,
                            result_save_path,
                            class_names,
