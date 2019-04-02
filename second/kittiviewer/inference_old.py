@@ -32,7 +32,6 @@ def build_network(BACKEND):
     with open(BACKEND.info_path, 'rb') as f:
         BACKEND.kitti_infos = pickle.load(f)
     BACKEND.image_idxes = [info["image_idx"] for info in BACKEND.kitti_infos]
-    print(BACKEND.kitti_infos[0])
     BACKEND.inference_ctx = TorchInferenceContext()
     BACKEND.inference_ctx.build(BACKEND.config_path)
     BACKEND.inference_ctx.restore(BACKEND.checkpoint_path)
@@ -61,7 +60,7 @@ def inference_by_idx(BACKEND, image_idx):
     t = time.time()
     inputs = BACKEND.inference_ctx.get_inference_input_dict(
         kitti_info, points)
-    print("inputs: ", inputs)
+    #print("inputs: ", inputs)
     print("input preparation time:", time.time() - t)
     t = time.time()
     with BACKEND.inference_ctx.ctx():
@@ -103,7 +102,7 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
 
     t = time.time()
     inputs = BACKEND.inference_ctx.get_inference_input_dict_v2(calib, image_shape, points)
-    print("inputs: ", inputs)
+    #print("inputs: ", inputs)
     print("input preparation time:", time.time() - t)
     t = time.time()
     with BACKEND.inference_ctx.ctx():
