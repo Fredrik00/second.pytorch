@@ -146,7 +146,15 @@ def get_pointcloud():
 
     v_path = str(Path(BACKEND.root_path) / kitti_info['velodyne_path'])
     with open(v_path, 'rb') as f:
-        pc_str = base64.encodestring(f.read())
+        pc = f.read()
+        pitch = 1
+        print(pc)
+	# rotation matrix for roll
+        rotR = np.array([[1,            0,              0],
+                         [0,            cos(pitch),     -sin(pitch)],
+                         [0,            sin(pitch),     cos(pitch)]])
+        pc = rotR * pc
+        pc_str = base64.encodestring(pc)
     response["pointcloud"] = pc_str.decode("utf-8")
     if "with_det" in instance and instance["with_det"]:
         if BACKEND.dt_annos is None:
