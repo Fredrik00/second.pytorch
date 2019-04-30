@@ -149,6 +149,8 @@ python ./pytorch/train.py evaluate --config_path=./configs/car.fhd.config --mode
 
 * detection result will saved as a result.pkl file in model_dir/eval_results/step_xxx or save as official KITTI label format if you use --pickle_result=False.
 
+* Specify --ckpt_path=/path/to/checkpoint to evaluate a specific checkpoint other than the latest
+
 ### pretrained model
 
 You can download pretrained models in [google drive](https://drive.google.com/open?id=1YOpgRkBgmSAJwMknoXmitEArNitZz63C). The ```car_fhd``` model is corresponding to car.fhd.config.
