@@ -62,12 +62,12 @@ def all_checkpoints(model_dir, model_name):
     if model_name not in ckpt_dict['all_ckpts']:
         return None
     all_ckpts = ckpt_dict['all_ckpts'][model_name]
-    ckpt_file_names = [str(Path(model_dir) / ckpt) for ckpt in all_ckpts]
+    ckpt_file_names = [Path(model_dir) / ckpt for ckpt in all_ckpts]
     for ckpt_file_name in ckpt_file_names:
         if not ckpt_file_name.is_file():
             return None
     
-    return ckpt_file_names
+    return [str(ckpt_file_name) for ckpt_file_name in ckpt_file_names]
 
 def _ordered_unique(seq):
     seen = set()
