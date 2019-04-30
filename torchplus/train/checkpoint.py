@@ -45,6 +45,30 @@ def latest_checkpoint(model_dir, model_name):
     
     return str(ckpt_file_name)
 
+def all_checkpoints(model_dir, model_name):
+    """return path of all checkpoints in a model_dir
+    Args:
+        model_dir: string, indicate your model dir(save ckpts, summarys,
+            logs, etc).
+        model_name: name of your model. we find ckpts by name
+    Returns:
+        path: None if isn't exist or latest checkpoint path.
+    """
+    ckpt_info_path = Path(model_dir) / "checkpoints.json"
+    if not ckpt_info_path.is_file():
+        return None
+    with open(ckpt_info_path, 'r') as f:
+        ckpt_dict = json.loads(f.read())
+    if model_name not in ckpt_dict['all_ckpts']:
+        return None
+    all_ckpts = ckpt_dict['all_ckpts'][model_name]
+    ckpt_file_names = [str(Path(model_dir) / ckpt) for ckpt in all_ckpts]
+    for ckpt_file_name in ckpt_file_names:
+        if not ckpt_file_name.is_file():
+            return None
+    
+    return ckpt_file_names
+
 def _ordered_unique(seq):
     seen = set()
     return [x for x in seq if not (x in seen or seen.add(x))]
@@ -129,7 +153,7 @@ def _check_model_names(models):
             ", ".join(model_names)))
 
 
-def _get_name_to_model_map(models):
+def get_name_to_model_map(models):
     if isinstance(models, dict):
         name_to_model = {name: m for name, m in models.items()}
     else:
@@ -139,14 +163,14 @@ def _get_name_to_model_map(models):
 
 
 def try_restore_latest_checkpoints(model_dir, models):
-    name_to_model = _get_name_to_model_map(models)
+    name_to_model = get_name_to_model_map(models)
     for name, model in name_to_model.items():
         latest_ckpt = latest_checkpoint(model_dir, name)
         if latest_ckpt is not None:
             restore(latest_ckpt, model)
 
 def restore_latest_checkpoints(model_dir, models):
-    name_to_model = _get_name_to_model_map(models)
+    name_to_model = get_name_to_model_map(models)
     for name, model in name_to_model.items():
         latest_ckpt = latest_checkpoint(model_dir, name)
         if latest_ckpt is not None:
@@ -155,7 +179,7 @@ def restore_latest_checkpoints(model_dir, models):
             raise ValueError("model {}\'s ckpt isn't exist".format(name))
 
 def restore_models(model_dir, models, global_step):
-    name_to_model = _get_name_to_model_map(models)
+    name_to_model = get_name_to_model_map(models)
     for name, model in name_to_model.items():
         ckpt_filename = "{}-{}.tckpt".format(name, global_step)
         ckpt_path = model_dir + "/" + ckpt_filename
@@ -168,6 +192,6 @@ def save_models(model_dir,
                 max_to_keep=15,
                 keep_latest=True):
     with DelayedKeyboardInterrupt():
-        name_to_model = _get_name_to_model_map(models)
+        name_to_model = get_name_to_model_map(models)
         for name, model in name_to_model.items():
             save(model_dir, model, name, global_step, max_to_keep, keep_latest)

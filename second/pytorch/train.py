@@ -609,7 +609,8 @@ def evaluate(config_path,
              ref_detfile=None,
              pickle_result=True,
              measure_time=False,
-             batch_size=None):
+             batch_size=None,
+             eval_all=False):
     model_dir = pathlib.Path(model_dir)
     if predict_test:
         result_name = 'predict_test'
@@ -642,89 +643,103 @@ def evaluate(config_path,
 
     net = second_builder.build(model_cfg, voxel_generator, target_assigner, measure_time=measure_time)
     net.cuda()
+    all_ckpts = []
 
-    if ckpt_path is None:
-        torchplus.train.try_restore_latest_checkpoints(model_dir, [net])
+    if eval_all: 
+        name_to_model = torchplus.train.get_name_to_model_map([net])
+        # We only expect one model for now
+        name, model = name_to_model.items()[0]
+        all_ckpts = torchplus.train.all_checkpoints(model_dir, name)
+
+    elif ckpt_path is not None:
+        all_ckpts.append(ckpt_path)
+
     else:
-        torchplus.train.restore(ckpt_path, net)
-    if train_cfg.enable_mixed_precision:
-        net.half()
-        print("half inference!")
-        net.metrics_to_float()
-        net.convert_norm_to_float(net)
-    batch_size = batch_size or input_cfg.batch_size
-    eval_dataset = input_reader_builder.build(
-        input_cfg,
-        model_cfg,
-        training=False,
-        voxel_generator=voxel_generator,
-        target_assigner=target_assigner)
-    eval_dataloader = torch.utils.data.DataLoader(
-        eval_dataset,
-        batch_size=batch_size,
-        shuffle=False,
-        num_workers=0,# input_cfg.num_workers,
-        pin_memory=False,
-        collate_fn=merge_second_batch)
+        all_ckpts.append(None)
 
-    if train_cfg.enable_mixed_precision:
-        float_dtype = torch.float16
-    else:
-        float_dtype = torch.float32
-
-    net.eval()
-    result_path_step = result_path / f"step_{net.get_global_step()}"
-    result_path_step.mkdir(parents=True, exist_ok=True)
-    t = time.time()
-    dt_annos = []
-    global_set = None
-    print("Generate output labels...")
-    bar = ProgressBar()
-    bar.start((len(eval_dataset) + batch_size - 1) // batch_size)
-    prep_example_times = []
-    prep_times = []
-    t2 = time.time()
-    for example in iter(eval_dataloader):
-        if measure_time:
-            prep_times.append(time.time() - t2)
-            t1 = time.time()
-            torch.cuda.synchronize()
-        example = example_convert_to_torch(example, float_dtype)
-        if measure_time:
-            torch.cuda.synchronize()
-            prep_example_times.append(time.time() - t1)
-
-        if pickle_result:
-            dt_annos += predict_kitti_to_anno(
-                net, example, class_names, center_limit_range,
-                model_cfg.lidar_input, global_set)
+    for ckpt_path in all_ckpts:    
+        if ckpt_path is None:
+            torchplus.train.try_restore_latest_checkpoints(model_dir, [net])
         else:
-            _predict_kitti_to_file(net, example, result_path_step, class_names,
-                                   center_limit_range, model_cfg.lidar_input)
-        # print(json.dumps(net.middle_feature_extractor.middle_conv.sparity_dict))
-        bar.print_bar()
-        if measure_time:
-            t2 = time.time()
+            torchplus.train.restore(ckpt_path, net)
+        if train_cfg.enable_mixed_precision:
+            net.half()
+            print("half inference!")
+            net.metrics_to_float()
+            net.convert_norm_to_float(net)
+        batch_size = batch_size or input_cfg.batch_size
+        eval_dataset = input_reader_builder.build(
+            input_cfg,
+            model_cfg,
+            training=False,
+            voxel_generator=voxel_generator,
+            target_assigner=target_assigner)
+        eval_dataloader = torch.utils.data.DataLoader(
+            eval_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            num_workers=0,# input_cfg.num_workers,
+            pin_memory=False,
+            collate_fn=merge_second_batch)
 
-    sec_per_example = len(eval_dataset) / (time.time() - t)
-    print(f'generate label finished({sec_per_example:.2f}/s). start eval:')
-    if measure_time:
-        print(f"avg example to torch time: {np.mean(prep_example_times) * 1000:.3f} ms")
-        print(f"avg prep time: {np.mean(prep_times) * 1000:.3f} ms")
-    for name, val in net.get_avg_time_dict().items():
-        print(f"avg {name} time = {val * 1000:.3f} ms")
-    if not predict_test:
-        gt_annos = [info["annos"] for info in eval_dataset.dataset.kitti_infos]
-        if not pickle_result:
-            dt_annos = kitti.get_label_annos(result_path_step)
-        result = get_official_eval_result(gt_annos, dt_annos, class_names)
-        # print(json.dumps(result, indent=2))
-        print(result)
-        result = get_coco_eval_result(gt_annos, dt_annos, class_names)
-        print(result)
-        if pickle_result:
-            with open(result_path_step / "result.pkl", 'wb') as f:
-                pickle.dump(dt_annos, f)
+        if train_cfg.enable_mixed_precision:
+            float_dtype = torch.float16
+        else:
+            float_dtype = torch.float32
+
+        net.eval()
+        result_path_step = result_path / f"step_{net.get_global_step()}"
+        result_path_step.mkdir(parents=True, exist_ok=True)
+        t = time.time()
+        dt_annos = []
+        global_set = None
+        print("Generate output labels...")
+        bar = ProgressBar()
+        bar.start((len(eval_dataset) + batch_size - 1) // batch_size)
+        prep_example_times = []
+        prep_times = []
+        t2 = time.time()
+        for example in iter(eval_dataloader):
+            if measure_time:
+                prep_times.append(time.time() - t2)
+                t1 = time.time()
+                torch.cuda.synchronize()
+            example = example_convert_to_torch(example, float_dtype)
+            if measure_time:
+                torch.cuda.synchronize()
+                prep_example_times.append(time.time() - t1)
+
+            if pickle_result:
+                dt_annos += predict_kitti_to_anno(
+                    net, example, class_names, center_limit_range,
+                    model_cfg.lidar_input, global_set)
+            else:
+                _predict_kitti_to_file(net, example, result_path_step, class_names,
+                                    center_limit_range, model_cfg.lidar_input)
+            # print(json.dumps(net.middle_feature_extractor.middle_conv.sparity_dict))
+            bar.print_bar()
+            if measure_time:
+                t2 = time.time()
+
+        sec_per_example = len(eval_dataset) / (time.time() - t)
+        print(f'generate label finished({sec_per_example:.2f}/s). start eval:')
+        if measure_time:
+            print(f"avg example to torch time: {np.mean(prep_example_times) * 1000:.3f} ms")
+            print(f"avg prep time: {np.mean(prep_times) * 1000:.3f} ms")
+        for name, val in net.get_avg_time_dict().items():
+            print(f"avg {name} time = {val * 1000:.3f} ms")
+        if not predict_test:
+            gt_annos = [info["annos"] for info in eval_dataset.dataset.kitti_infos]
+            if not pickle_result:
+                dt_annos = kitti.get_label_annos(result_path_step)
+            result = get_official_eval_result(gt_annos, dt_annos, class_names)
+            # print(json.dumps(result, indent=2))
+            print(result)
+            result = get_coco_eval_result(gt_annos, dt_annos, class_names)
+            print(result)
+            if pickle_result:
+                with open(result_path_step / "result.pkl", 'wb') as f:
+                    pickle.dump(dt_annos, f)
 
 
 def save_config(config_path, save_path):
