@@ -648,7 +648,7 @@ def evaluate(config_path,
     if eval_all: 
         name_to_model = torchplus.train.get_name_to_model_map([net])
         # We only expect one model for now
-        name, model = name_to_model.items()[0]
+        name, model = list(name_to_model.items())[0]
         all_ckpts = torchplus.train.all_checkpoints(model_dir, name)
 
     elif ckpt_path is not None:
