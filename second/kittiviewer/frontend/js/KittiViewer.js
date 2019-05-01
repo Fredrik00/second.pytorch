@@ -1,6 +1,6 @@
 var KittiViewer = function (pointCloud, logger, imageCanvas) {
     this.rootPath = "/notebooks/DATA/Carla/object" //"/path/to/kitti";
-    this.infoPath = "/notebooks/DATA/Carla/object/kitti_infos_test.pkl" //"/path/to/infos.pkl";
+    this.infoPath = "/notebooks/DATA/Carla/object/kitti_infos_val.pkl" //"/path/to/infos.pkl";
     this.detPath = "/notebooks/second_models/all_test/eval_results/step_74240/result.pkl" //"/path/to/results.pkl";
     this.backend = "http://nap.idi.ntnu.no:16666"; //"http://127.0.0.1:7000";
     this.checkpointPath = "/notebooks/second_models/all_test/voxelnet-74240.tckpt" //"/path/to/tckpt";
