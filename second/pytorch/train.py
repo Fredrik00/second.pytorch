@@ -346,8 +346,8 @@ def train(config_path,
                     print(log_str, file=logf)
                     print(log_str)
                 ckpt_elasped_time = time.time() - ckpt_start_time
-                if train_cfg.save_checkpoints_step: 
-                    if global_step%train_cfg.save_checkpoints_step == 0:
+                if train_cfg.save_checkpoints_steps: 
+                    if global_step%train_cfg.save_checkpoints_steps == 0:
                         torchplus.train.save_models(model_dir, [net, optimizer],
                                                     net.get_global_step())
                         ckpt_start_time = time.time()
