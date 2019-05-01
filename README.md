@@ -149,7 +149,9 @@ python ./pytorch/train.py evaluate --config_path=./configs/car.fhd.config --mode
 
 * detection result will saved as a result.pkl file in model_dir/eval_results/step_xxx or save as official KITTI label format if you use --pickle_result=False.
 
-* Specify --ckpt_path=/path/to/checkpoint to evaluate a specific checkpoint other than the latest
+* specify --ckpt_path=/path/to/checkpoint to evaluate a specific checkpoint other than the latest
+
+* set --all_eval=True to evaluate all checkpoints successively
 
 ### pretrained model
 
