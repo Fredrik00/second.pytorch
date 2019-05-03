@@ -62,6 +62,7 @@ export NUMBAPRO_CUDA_DRIVER=/usr/lib/x86_64-linux-gnu/libcuda.so
 export NUMBAPRO_NVVM=/usr/local/cuda/nvvm/lib64/libnvvm.so
 export NUMBAPRO_LIBDEVICE=/usr/local/cuda/nvvm/libdevice
 ```
+(if libcuda.so is missing inside the docker container, copy it from the host)
 
 ### 4. add second.pytorch/ to PYTHONPATH
 export PYTHONPATH=/notebooks/second.pytorch/
