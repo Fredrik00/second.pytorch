@@ -1,0 +1,597 @@
+generate label finished(28.33/s). start eval:
+avg example to torch time: 0.614 ms
+avg prep time: 3.230 ms
+avg voxel_feature_extractor time = 0.226 ms
+avg middle forward time = 23.495 ms
+avg rpn forward time = 4.866 ms
+avg predict time = 2.403 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:74.30, 67.09, 67.09
+bev  AP:79.61, 77.98, 77.98
+3d   AP:74.24, 65.45, 65.45
+aos  AP:29.44, 26.93, 26.93
+Car AP@0.70, 0.50, 0.50:
+bbox AP:74.30, 67.09, 67.09
+bev  AP:86.58, 78.70, 78.70
+3d   AP:86.43, 78.45, 78.45
+aos  AP:29.44, 26.93, 26.93
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.77, 76.64, 76.64
+bev  AP:85.77, 76.47, 76.47
+3d   AP:85.08, 76.11, 76.11
+aos  AP:58.24, 49.72, 49.72
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.77, 76.64, 76.64
+bev  AP:85.77, 76.65, 76.65
+3d   AP:85.77, 76.65, 76.65
+aos  AP:58.24, 49.72, 49.72
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.19, 54.54, 54.54
+bev  AP:64.96, 58.68, 58.68
+3d   AP:52.72, 47.26, 47.26
+aos  AP:24.18, 22.30, 22.30
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:81.30, 71.43, 71.43
+bev  AP:75.64, 66.39, 66.39
+3d   AP:73.38, 64.41, 64.41
+aos  AP:55.11, 46.33, 46.33
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-46000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.72it/s][00:58>00:00]
+generate label finished(33.82/s). start eval:
+avg example to torch time: 0.576 ms
+avg prep time: 1.612 ms
+avg voxel_feature_extractor time = 0.199 ms
+avg middle forward time = 21.604 ms
+avg rpn forward time = 4.857 ms
+avg predict time = 2.288 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:77.03, 69.17, 69.17
+bev  AP:78.55, 76.67, 76.67
+3d   AP:66.18, 63.91, 63.91
+aos  AP:42.28, 39.84, 39.84
+Car AP@0.70, 0.50, 0.50:
+bbox AP:77.03, 69.17, 69.17
+bev  AP:79.10, 77.28, 77.28
+3d   AP:78.47, 76.86, 76.86
+aos  AP:42.28, 39.84, 39.84
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.22, 77.23, 77.23
+bev  AP:85.22, 77.50, 77.50
+3d   AP:85.22, 77.43, 77.43
+aos  AP:59.09, 51.84, 51.84
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.22, 77.23, 77.23
+bev  AP:85.22, 77.51, 77.51
+3d   AP:85.22, 77.51, 77.51
+aos  AP:59.09, 51.84, 51.84
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:59.18, 56.10, 56.10
+bev  AP:62.72, 59.42, 59.42
+3d   AP:51.18, 47.39, 47.39
+aos  AP:32.40, 32.06, 32.06
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.24, 75.15, 75.15
+bev  AP:76.45, 69.45, 69.45
+3d   AP:74.10, 66.65, 66.65
+aos  AP:57.88, 50.56, 50.56
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-48000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.66it/s][00:59>00:00]
+generate label finished(33.76/s). start eval:
+avg example to torch time: 0.563 ms
+avg prep time: 1.569 ms
+avg voxel_feature_extractor time = 0.190 ms
+avg middle forward time = 20.986 ms
+avg rpn forward time = 4.856 ms
+avg predict time = 2.265 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.94, 74.51, 74.51
+bev  AP:86.37, 77.99, 77.99
+3d   AP:75.67, 66.75, 66.75
+aos  AP:19.83, 20.31, 20.31
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.94, 74.51, 74.51
+bev  AP:86.86, 78.90, 78.90
+3d   AP:86.53, 78.45, 78.45
+aos  AP:19.83, 20.31, 20.31
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:84.19, 76.18, 76.18
+bev  AP:84.19, 76.13, 76.13
+3d   AP:84.19, 75.98, 75.98
+aos  AP:59.32, 52.73, 52.73
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:84.19, 76.18, 76.18
+bev  AP:84.19, 76.27, 76.27
+3d   AP:84.19, 76.27, 76.27
+aos  AP:59.32, 52.73, 52.73
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:63.35, 57.22, 57.22
+bev  AP:68.05, 61.31, 61.31
+3d   AP:55.91, 49.91, 49.91
+aos  AP:16.70, 15.70, 15.70
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:82.22, 73.95, 73.95
+bev  AP:75.36, 67.78, 67.78
+3d   AP:73.01, 64.89, 64.89
+aos  AP:58.18, 51.35, 51.35
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-50000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.87it/s][00:58>00:00]
+generate label finished(33.81/s). start eval:
+avg example to torch time: 0.569 ms
+avg prep time: 1.595 ms
+avg voxel_feature_extractor time = 0.186 ms
+avg middle forward time = 20.683 ms
+avg rpn forward time = 4.856 ms
+avg predict time = 2.233 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.17, 68.45, 68.45
+bev  AP:80.01, 78.49, 78.49
+3d   AP:76.27, 67.77, 67.77
+aos  AP:33.97, 32.59, 32.59
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.17, 68.45, 68.45
+bev  AP:80.23, 78.93, 78.93
+3d   AP:80.06, 78.66, 78.66
+aos  AP:33.97, 32.59, 32.59
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.22, 77.25, 77.25
+bev  AP:85.22, 77.25, 77.25
+3d   AP:85.22, 77.25, 77.25
+aos  AP:52.62, 46.55, 46.55
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.22, 77.25, 77.25
+bev  AP:85.22, 77.25, 77.25
+3d   AP:85.22, 77.25, 77.25
+aos  AP:52.62, 46.55, 46.55
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.35, 57.11, 57.11
+bev  AP:65.23, 61.90, 61.90
+3d   AP:54.05, 49.73, 49.73
+aos  AP:26.61, 26.86, 26.86
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.02, 74.04, 74.04
+bev  AP:75.41, 68.88, 68.88
+3d   AP:73.89, 66.90, 66.90
+aos  AP:51.61, 44.71, 44.71
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-52000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.68it/s][00:59>00:00]
+generate label finished(33.59/s). start eval:
+avg example to torch time: 0.569 ms
+avg prep time: 1.598 ms
+avg voxel_feature_extractor time = 0.184 ms
+avg middle forward time = 20.508 ms
+avg rpn forward time = 4.856 ms
+avg predict time = 2.238 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.16, 74.29, 74.29
+bev  AP:78.97, 77.40, 77.40
+3d   AP:73.34, 66.22, 66.22
+aos  AP:43.87, 42.08, 42.08
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.16, 74.29, 74.29
+bev  AP:85.73, 78.00, 78.00
+3d   AP:79.00, 77.69, 77.69
+aos  AP:43.87, 42.08, 42.08
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.11, 76.76, 76.76
+bev  AP:85.11, 76.78, 76.78
+3d   AP:85.11, 76.76, 76.76
+aos  AP:55.69, 52.75, 52.75
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.11, 76.76, 76.76
+bev  AP:85.11, 76.78, 76.78
+3d   AP:85.11, 76.78, 76.78
+aos  AP:55.69, 52.75, 52.75
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.66, 56.70, 56.70
+bev  AP:63.89, 60.28, 60.28
+3d   AP:53.26, 48.61, 48.61
+aos  AP:35.34, 32.64, 32.64
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:82.99, 74.40, 74.40
+bev  AP:76.01, 68.04, 68.04
+3d   AP:73.50, 65.85, 65.85
+aos  AP:54.44, 51.18, 51.18
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-54000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.85it/s][00:59>00:00]
+generate label finished(33.76/s). start eval:
+avg example to torch time: 0.566 ms
+avg prep time: 1.571 ms
+avg voxel_feature_extractor time = 0.182 ms
+avg middle forward time = 20.388 ms
+avg rpn forward time = 4.856 ms
+avg predict time = 2.228 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:77.75, 75.96, 75.96
+bev  AP:79.60, 78.03, 78.03
+3d   AP:75.35, 66.71, 66.71
+aos  AP:25.79, 24.69, 24.69
+Car AP@0.70, 0.50, 0.50:
+bbox AP:77.75, 75.96, 75.96
+bev  AP:80.04, 79.17, 79.17
+3d   AP:79.80, 78.93, 78.93
+aos  AP:25.79, 24.69, 24.69
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.64, 77.39, 77.39
+bev  AP:85.64, 77.39, 77.39
+3d   AP:85.64, 77.39, 77.39
+aos  AP:57.53, 51.39, 51.39
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.64, 77.39, 77.39
+bev  AP:85.64, 77.39, 77.39
+3d   AP:85.64, 77.39, 77.39
+aos  AP:57.53, 51.39, 51.39
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:61.58, 57.57, 57.57
+bev  AP:66.02, 62.75, 62.75
+3d   AP:55.13, 50.56, 50.56
+aos  AP:20.06, 18.46, 18.46
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.51, 74.92, 74.92
+bev  AP:75.48, 68.08, 68.08
+3d   AP:73.97, 66.53, 66.53
+aos  AP:56.25, 49.82, 49.82
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-56000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.77it/s][00:59>00:00]
+generate label finished(33.70/s). start eval:
+avg example to torch time: 0.567 ms
+avg prep time: 1.576 ms
+avg voxel_feature_extractor time = 0.181 ms
+avg middle forward time = 20.306 ms
+avg rpn forward time = 4.857 ms
+avg predict time = 2.223 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:75.76, 74.46, 74.46
+bev  AP:79.47, 77.95, 77.95
+3d   AP:76.92, 67.83, 67.83
+aos  AP:21.29, 27.79, 27.79
+Car AP@0.70, 0.50, 0.50:
+bbox AP:75.76, 74.46, 74.46
+bev  AP:79.64, 78.53, 78.53
+3d   AP:79.43, 78.17, 78.17
+aos  AP:21.29, 27.79, 27.79
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.41, 77.09, 77.09
+bev  AP:85.41, 77.12, 77.12
+3d   AP:85.41, 77.12, 77.12
+aos  AP:62.97, 57.59, 57.59
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.41, 77.09, 77.09
+bev  AP:85.41, 77.12, 77.12
+3d   AP:85.41, 77.12, 77.12
+aos  AP:62.97, 57.59, 57.59
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.98, 58.01, 58.01
+bev  AP:66.44, 62.53, 62.53
+3d   AP:55.81, 51.48, 51.48
+aos  AP:16.82, 22.28, 22.28
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.23, 73.94, 73.94
+bev  AP:75.81, 68.30, 68.30
+3d   AP:74.19, 66.30, 66.30
+aos  AP:61.42, 55.32, 55.32
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-58000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.92it/s][00:59>00:00]
+generate label finished(33.73/s). start eval:
+avg example to torch time: 0.574 ms
+avg prep time: 1.610 ms
+avg voxel_feature_extractor time = 0.180 ms
+avg middle forward time = 20.244 ms
+avg rpn forward time = 4.857 ms
+avg predict time = 2.213 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.18, 68.10, 68.10
+bev  AP:79.59, 78.26, 78.26
+3d   AP:76.68, 67.19, 67.19
+aos  AP:34.71, 31.15, 31.15
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.18, 68.10, 68.10
+bev  AP:79.90, 78.66, 78.66
+3d   AP:79.64, 78.37, 78.37
+aos  AP:34.71, 31.15, 31.15
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.22, 77.45, 77.45
+bev  AP:85.22, 77.45, 77.45
+3d   AP:85.22, 77.45, 77.45
+aos  AP:64.97, 58.63, 58.63
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.22, 77.45, 77.45
+bev  AP:85.22, 77.45, 77.45
+3d   AP:85.22, 77.45, 77.45
+aos  AP:64.97, 58.63, 58.63
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.71, 56.44, 56.44
+bev  AP:63.96, 60.93, 60.93
+3d   AP:54.74, 49.06, 49.06
+aos  AP:27.82, 26.13, 26.13
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.19, 74.07, 74.07
+bev  AP:76.05, 69.16, 69.16
+3d   AP:74.64, 67.41, 67.41
+aos  AP:63.53, 56.30, 56.30
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-60000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.79it/s][00:59>00:00]
+generate label finished(33.67/s). start eval:
+avg example to torch time: 0.577 ms
+avg prep time: 1.605 ms
+avg voxel_feature_extractor time = 0.179 ms
+avg middle forward time = 20.197 ms
+avg rpn forward time = 4.857 ms
+avg predict time = 2.209 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.15, 68.29, 68.29
+bev  AP:79.38, 77.60, 77.60
+3d   AP:69.31, 67.21, 67.21
+aos  AP:26.69, 23.34, 23.34
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.15, 68.29, 68.29
+bev  AP:79.75, 78.23, 78.23
+3d   AP:79.54, 77.92, 77.92
+aos  AP:26.69, 23.34, 23.34
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.80, 77.82, 77.82
+bev  AP:85.80, 77.83, 77.83
+3d   AP:85.80, 77.83, 77.83
+aos  AP:59.22, 51.06, 51.06
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.80, 77.82, 77.82
+bev  AP:85.80, 77.83, 77.83
+3d   AP:85.80, 77.83, 77.83
+aos  AP:59.22, 51.06, 51.06
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.28, 56.72, 56.72
+bev  AP:65.35, 61.60, 61.60
+3d   AP:54.53, 49.64, 49.64
+aos  AP:21.16, 19.42, 19.42
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.82, 74.85, 74.85
+bev  AP:76.25, 69.04, 69.04
+3d   AP:74.63, 66.90, 66.90
+aos  AP:58.10, 49.22, 49.22
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-62000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.77it/s][00:59>00:00]
+generate label finished(33.70/s). start eval:
+avg example to torch time: 0.574 ms
+avg prep time: 1.609 ms
+avg voxel_feature_extractor time = 0.179 ms
+avg middle forward time = 20.161 ms
+avg rpn forward time = 4.858 ms
+avg predict time = 2.203 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.39, 68.40, 68.40
+bev  AP:79.32, 70.81, 70.81
+3d   AP:69.21, 67.18, 67.18
+aos  AP:36.02, 32.10, 32.10
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.39, 68.40, 68.40
+bev  AP:79.76, 78.77, 78.77
+3d   AP:79.45, 78.41, 78.41
+aos  AP:36.02, 32.10, 32.10
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.03, 77.13, 77.13
+bev  AP:85.29, 77.31, 77.31
+3d   AP:85.29, 77.31, 77.31
+aos  AP:56.14, 52.15, 52.15
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.03, 77.13, 77.13
+bev  AP:85.29, 77.31, 77.31
+3d   AP:85.29, 77.31, 77.31
+aos  AP:56.14, 52.15, 52.15
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.57, 56.78, 56.78
+bev  AP:65.56, 61.76, 61.76
+3d   AP:54.87, 50.13, 50.13
+aos  AP:28.67, 26.49, 26.49
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.38, 75.06, 75.06
+bev  AP:75.81, 68.12, 68.12
+3d   AP:74.18, 66.75, 66.75
+aos  AP:55.27, 50.87, 50.87
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-64000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.86it/s][00:59>00:00]
+generate label finished(33.67/s). start eval:
+avg example to torch time: 0.571 ms
+avg prep time: 1.591 ms
+avg voxel_feature_extractor time = 0.179 ms
+avg middle forward time = 20.133 ms
+avg rpn forward time = 4.858 ms
+avg predict time = 2.199 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.34, 68.31, 68.31
+bev  AP:79.41, 78.07, 78.07
+3d   AP:69.07, 66.65, 66.65
+aos  AP:35.91, 31.84, 31.84
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.34, 68.31, 68.31
+bev  AP:79.72, 78.48, 78.48
+3d   AP:79.50, 78.17, 78.17
+aos  AP:35.91, 31.84, 31.84
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.50, 77.40, 77.40
+bev  AP:85.50, 77.40, 77.40
+3d   AP:85.50, 77.40, 77.40
+aos  AP:58.38, 53.32, 53.32
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.50, 77.40, 77.40
+bev  AP:85.50, 77.40, 77.40
+3d   AP:85.50, 77.40, 77.40
+aos  AP:58.38, 53.32, 53.32
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.69, 55.94, 55.94
+bev  AP:65.55, 62.38, 62.38
+3d   AP:54.79, 49.93, 49.93
+aos  AP:28.44, 26.25, 26.25
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.73, 75.30, 75.30
+bev  AP:75.81, 68.56, 68.56
+3d   AP:74.17, 66.85, 66.85
+aos  AP:57.19, 51.95, 51.95
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-66000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.85it/s][00:59>00:00]
+generate label finished(33.70/s). start eval:
+avg example to torch time: 0.570 ms
+avg prep time: 1.595 ms
+avg voxel_feature_extractor time = 0.178 ms
+avg middle forward time = 20.108 ms
+avg rpn forward time = 4.859 ms
+avg predict time = 2.196 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.10, 68.41, 68.41
+bev  AP:79.61, 78.21, 78.21
+3d   AP:76.15, 67.24, 67.24
+aos  AP:34.12, 30.63, 30.63
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.10, 68.41, 68.41
+bev  AP:79.95, 78.69, 78.69
+3d   AP:79.71, 78.37, 78.37
+aos  AP:34.12, 30.63, 30.63
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.55, 77.49, 77.49
+bev  AP:85.55, 77.49, 77.49
+3d   AP:85.55, 77.49, 77.49
+aos  AP:59.26, 54.56, 54.56
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.55, 77.49, 77.49
+bev  AP:85.55, 77.49, 77.49
+3d   AP:85.55, 77.49, 77.49
+aos  AP:59.26, 54.56, 54.56
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.72, 57.08, 57.08
+bev  AP:66.66, 62.21, 62.21
+3d   AP:56.11, 50.57, 50.57
+aos  AP:27.23, 26.10, 26.10
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.61, 75.32, 75.32
+bev  AP:76.42, 68.99, 68.99
+3d   AP:75.09, 67.75, 67.75
+aos  AP:58.03, 53.15, 53.15
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-68000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.93it/s][00:59>00:00]
+generate label finished(33.69/s). start eval:
+avg example to torch time: 0.573 ms
+avg prep time: 1.581 ms
+avg voxel_feature_extractor time = 0.178 ms
+avg middle forward time = 20.087 ms
+avg rpn forward time = 4.859 ms
+avg predict time = 2.193 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:75.91, 68.09, 68.09
+bev  AP:79.57, 78.18, 78.18
+3d   AP:76.42, 67.42, 67.42
+aos  AP:36.00, 31.48, 31.48
+Car AP@0.70, 0.50, 0.50:
+bbox AP:75.91, 68.09, 68.09
+bev  AP:79.96, 78.76, 78.76
+3d   AP:79.71, 78.38, 78.38
+aos  AP:36.00, 31.48, 31.48
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.72, 77.60, 77.60
+bev  AP:85.72, 77.60, 77.60
+3d   AP:85.72, 77.60, 77.60
+aos  AP:59.38, 53.30, 53.30
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.72, 77.60, 77.60
+bev  AP:85.72, 77.60, 77.60
+3d   AP:85.72, 77.60, 77.60
+aos  AP:59.38, 53.30, 53.30
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.61, 56.65, 56.65
+bev  AP:66.64, 62.79, 62.79
+3d   AP:56.00, 51.04, 51.04
+aos  AP:28.83, 26.44, 26.44
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.79, 75.40, 75.40
+bev  AP:75.88, 68.38, 68.38
+3d   AP:74.43, 66.97, 66.97
+aos  AP:58.22, 51.86, 51.86
+
+Restoring parameters from /notebooks/second_models/carla_carped/voxelnet-70000.tckpt
+remain number of infos: 2000
+Generate output labels...
+[100.0%][===================>][33.74it/s][00:59>00:00]
+generate label finished(33.60/s). start eval:
+avg example to torch time: 0.580 ms
+avg prep time: 1.651 ms
+avg voxel_feature_extractor time = 0.178 ms
+avg middle forward time = 20.071 ms
+avg rpn forward time = 4.859 ms
+avg predict time = 2.191 ms
+Car AP@0.70, 0.70, 0.70:
+bbox AP:76.10, 68.29, 68.29
+bev  AP:79.62, 78.23, 78.23
+3d   AP:76.40, 67.29, 67.29
+aos  AP:36.30, 31.71, 31.71
+Car AP@0.70, 0.50, 0.50:
+bbox AP:76.10, 68.29, 68.29
+bev  AP:79.96, 78.85, 78.85
+3d   AP:79.72, 78.42, 78.42
+aos  AP:36.30, 31.71, 31.71
+Pedestrian AP@0.50, 0.50, 0.50:
+bbox AP:85.76, 77.69, 77.69
+bev  AP:85.76, 77.69, 77.69
+3d   AP:85.76, 77.69, 77.69
+aos  AP:58.79, 52.86, 52.86
+Pedestrian AP@0.50, 0.25, 0.25:
+bbox AP:85.76, 77.69, 77.69
+bev  AP:85.76, 77.69, 77.69
+3d   AP:85.76, 77.69, 77.69
+aos  AP:58.79, 52.86, 52.86
+
+Car coco AP@0.50:0.05:0.95:
+bbox AP:60.63, 56.67, 56.67
+bev  AP:66.67, 62.80, 62.80
+3d   AP:55.98, 51.06, 51.06
+aos  AP:28.93, 26.53, 26.53
+Pedestrian coco AP@0.25:0.05:0.70:
+bbox AP:83.85, 75.45, 75.45
+bev  AP:75.85, 68.41, 68.41
+3d   AP:74.42, 66.98, 66.98
+aos  AP:57.64, 51.49, 51.49
