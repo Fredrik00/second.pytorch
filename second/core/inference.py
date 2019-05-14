@@ -68,7 +68,7 @@ class InferenceContext:
         example = merge_second_batch([example])
         return example
 
-    def get_inference_input_dict_v2(self, calib, image_shape, points):
+    def get_inference_input_dict_v2(self, calib, image_shape, points, idx=0):
         assert self.anchor_cache is not None
         assert self.target_assigner is not None
         assert self.voxel_generator is not None
@@ -86,7 +86,7 @@ class InferenceContext:
             'Trv2c': Trv2c,
             'P2': P2,
             'image_shape': image_shape,
-            'image_idx': 0,  # Small hack
+            'image_idx': idx,  # Small hack
             # 'pointcloud_num_features': num_point_features,
         }
         out_size_factor = model_cfg.rpn.layer_strides[0] // model_cfg.rpn.upsample_strides[0]
