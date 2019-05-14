@@ -107,8 +107,8 @@ class InferenceContext:
             anchor_cache=self.anchor_cache,
             out_size_factor=out_size_factor,
             out_dtype=np.float32)
-        example["image_idx"] = 0
-        example["image_shape"] = input_dict["image_shape"]
+        example["image_idx"] = idx
+        example["image_shape"] = image_shape
         example["points"] = points
         if "anchors_mask" in example:
             example["anchors_mask"] = example["anchors_mask"].astype(np.uint8)

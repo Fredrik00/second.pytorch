@@ -81,13 +81,14 @@ def inference_to_file(BACKEND, points, calib, image_shape=None, idx=0): # image 
     wh = np.array(image_shape[::-1])
     whwh = np.tile(wh, 2)
 
+    print(idx)
     t = time.time()
     inputs = BACKEND.inference_ctx.get_inference_input_dict_v2(calib, image_shape, points, idx)
     #print("inputs: ", inputs)
     print("input preparation time:", time.time() - t)
     t = time.time()
     with BACKEND.inference_ctx.ctx():
-        BACKEND.inference_ctx.inference_to_file(inputs)[0]
+        BACKEND.inference_ctx.inference_to_file(inputs)
     print("detection time:", time.time() - t)
     print("Results saved to /notebooks/second_output")
     print("Inference complete")
