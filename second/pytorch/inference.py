@@ -109,7 +109,7 @@ class TorchInferenceContext(InferenceContext):
             float_dtype = torch.float32
         example_torch = example_convert_to_torch(example, float_dtype)
         predict_kitti_to_file(
-            self.net, example_torch, "/notebooks/second_output", list(
+            self.net, example_torch, "/notebooks/second_output/predictions", list(
                 self.target_assigner.classes),
             model_cfg.post_center_limit_range, model_cfg.lidar_input)
 

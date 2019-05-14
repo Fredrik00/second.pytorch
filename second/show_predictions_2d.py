@@ -1,4 +1,4 @@
-from inference import SecondBackend, build_network, inference_by_input
+from online_inference import SecondBackend, build_network, inference
 import numpy as np
 import csv
 
@@ -288,7 +288,7 @@ def draw_box_3d(ax, obj, p, show_orientation=True,
             ax.plot(x, y, linewidth=2, color='k')
 
 
-def main(BACKEND, image, points, calib):
+def main(BACKEND, image, points, calib, idx):
     """This demo shows RPN proposals and AVOD predictions in 3D
     and 2D in image space. Given certain thresholds for proposals
     and predictions, it selects and draws the bounding boxes on
@@ -326,7 +326,7 @@ def main(BACKEND, image, points, calib):
 
     draw_predictions(pred_objects, prop_2d_axes, prop_3d_axes, calib["P2"][:3])
 
-    out_name = "images_2d/out.png"
+    out_name = "/notebooks/second_output/images/%06d.png" % idx
     plt.savefig(out_name)
     plt.close(prop_fig)
     print('\nDone')
@@ -408,17 +408,21 @@ def read_calibration(path):
 
 if __name__ == '__main__':
     BACKEND = SecondBackend()
-    BACKEND.checkpoint_path = "/notebooks/second_models/all_test/voxelnet-74240.tckpt"
-    BACKEND.config_path = "/notebooks/second_models/all_test/pipeline.config"
+    BACKEND.checkpoint_path = "/notebooks/second_models/carla_carped/voxelnet-62000.tckpt"
+    BACKEND.config_path = "/notebooks/second_models/carla_carped/pipeline.config"
     build_network(BACKEND)
 
-    # Loop below on more images
-    image = np.array(Image.open("/notebooks/DATA/Kitti/object/testing/image_2/000001.png"), dtype=np.uint8)
+    for idx in range(100):
+        filename = "%06d" % idx
+        dataset = "Arctic"
 
-    v_path = "/notebooks/DATA/Kitti/object/testing/velodyne/000001.bin"
-    num_features = 4
-    points = np.fromfile(str(v_path), dtype=np.float32, count=-1).reshape([-1, num_features])
-    
-    calib = read_calibration("/notebooks/DATA/Kitti/object/testing/calib/000001.txt")
+        # Loop below on more images
+        image = np.array(Image.open("/notebooks/DATA/" + dataset + "/object/testing/image_2/" + filename + ".png"), dtype=np.uint8)
 
-    main(BACKEND, image, points, calib)
+        v_path = "/notebooks/DATA/" + dataset + "/object/testing/velodyne/" + filename + ".bin"
+        num_features = 4
+        points = np.fromfile(str(v_path), dtype=np.float32, count=-1).reshape([-1, num_features])
+        
+        calib = read_calibration("/notebooks/DATA/" + dataset + "/object/testing/calib/" + filname + ".txt")
+
+        main(BACKEND, image, points, calib, idx)
