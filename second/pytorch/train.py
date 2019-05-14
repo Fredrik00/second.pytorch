@@ -382,7 +382,7 @@ def train(config_path,
                         net, example, class_names, center_limit_range,
                         model_cfg.lidar_input)
                 else:
-                    _predict_kitti_to_file(net, example, result_path_step,
+                    predict_kitti_to_file(net, example, result_path_step,
                                            class_names, center_limit_range,
                                            model_cfg.lidar_input)
 
@@ -424,7 +424,7 @@ def train(config_path,
     logf.close()
 
 
-def _predict_kitti_to_file(net,
+def predict_kitti_to_file(net,
                            example,
                            result_save_path,
                            class_names,
@@ -720,7 +720,7 @@ def evaluate(config_path,
                     net, example, class_names, center_limit_range,
                     model_cfg.lidar_input, global_set)
             else:
-                _predict_kitti_to_file(net, example, result_path_step, class_names,
+                predict_kitti_to_file(net, example, result_path_step, class_names,
                                     center_limit_range, model_cfg.lidar_input)
             # print(json.dumps(net.middle_feature_extractor.middle_conv.sparity_dict))
             bar.print_bar()
