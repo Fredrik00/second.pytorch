@@ -30,7 +30,7 @@ def build_network(BACKEND):
     BACKEND.inference_ctx.restore(BACKEND.checkpoint_path)
     print("build_network successful!")
 
-def inference_by_input(BACKEND, points, calib, image_shape=None, idx=0): # image shape as [h, w]
+def inference(BACKEND, points, calib, image_shape=None, idx=0): # image shape as [h, w]
     rect = calib['R0_rect']
     P2 = calib['P2']
     Trv2c = calib['Tr_velo_to_cam']
@@ -45,7 +45,7 @@ def inference_by_input(BACKEND, points, calib, image_shape=None, idx=0): # image
     print("input preparation time:", time.time() - t)
     t = time.time()
     with BACKEND.inference_ctx.ctx():
-        dt_annos = BACKEND.inference_ctx.inference_to_file(inputs)[0]
+        dt_annos = BACKEND.inference_ctx.inference(inputs)[0]
     print(dt_annos)
     print("detection time:", time.time() - t)
     dims = dt_annos['dimensions']
@@ -71,6 +71,26 @@ def inference_by_input(BACKEND, points, calib, image_shape=None, idx=0): # image
     print("Inference complete")
 
     return annos
+
+def inference_to_file(BACKEND, points, calib, image_shape=None, idx=0): # image shape as [h, w]
+    rect = calib['R0_rect']
+    P2 = calib['P2']
+    Trv2c = calib['Tr_velo_to_cam']
+    if image_shape is not None:
+        points = box_np_ops.remove_outside_points(points, rect, Trv2c, P2, image_shape)
+    wh = np.array(image_shape[::-1])
+    whwh = np.tile(wh, 2)
+
+    t = time.time()
+    inputs = BACKEND.inference_ctx.get_inference_input_dict_v2(calib, image_shape, points, idx)
+    #print("inputs: ", inputs)
+    print("input preparation time:", time.time() - t)
+    t = time.time()
+    with BACKEND.inference_ctx.ctx():
+        BACKEND.inference_ctx.inference_to_file(inputs)[0]
+    print("detection time:", time.time() - t)
+    print("Results saved to /notebooks/second_output")
+    print("Inference complete")
 
 if __name__ == "__main__":
     BACKEND = SecondBackend()
@@ -101,4 +121,4 @@ if __name__ == "__main__":
     build_network(BACKEND)
     
     for idx in range(10):
-        inference_by_input(BACKEND, points, calib, image_shape, idx)
+        inference_to_file(BACKEND, points, calib, image_shape, idx)
