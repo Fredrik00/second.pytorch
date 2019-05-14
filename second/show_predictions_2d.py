@@ -102,6 +102,36 @@ def visualization(image, display=True, fig_size=(15, 9.15)):
     return fig, ax1, ax2
 
 
+def visualization_single_plot(image, display=True, fig_size=(12.9, 3.9)):
+    """Forms the plot figure and axis for the visualization
+
+    Keyword arguments:
+    :param image_dir -- directory of image files in the wavedata
+    :param img_idx -- index of the image file to present
+    :param flipped -- flag to enable image flipping
+    :param display -- display the image in non-blocking fashion
+    :param fig_size -- (optional) size of the figure
+    """
+
+    # Create the figure
+    fig, ax = plt.subplots(1, figsize=fig_size, facecolor='black')
+    fig.subplots_adjust(left=0.0, bottom=0.0, right=1.0, top=1.0,
+                        hspace=0.0, wspace=0.0)
+
+    # Set axes settings
+    ax.set_axis_off()
+    ax.set_xlim(0, image.shape[1])
+    ax.set_ylim(image.shape[0], 0)
+
+    # plot images
+    ax.imshow(image)
+
+    if display:
+        plt.show(block=False)
+
+    return fig, ax
+
+
 def project_to_image(point_cloud, p):
     """ Projects a 3D point cloud to 2D points for plotting
 
@@ -322,9 +352,10 @@ def main(BACKEND, image, points, calib, idx):
 
     image_size = image.size
 
-    prop_fig, prop_2d_axes, prop_3d_axes = visualization(image, display=False)
+    #prop_fig, prop_2d_axes, prop_3d_axes = visualization(image, display=False)
+    prop_fig, prop_3d_axes = visualization_single_plot(image, display=False)
 
-    draw_predictions(pred_objects, prop_2d_axes, prop_3d_axes, calib["P2"][:3])
+    draw_predictions(pred_objects, None, prop_3d_axes, calib["P2"][:3])
 
     out_name = "/notebooks/second_output/images/%06d.png" % idx
     plt.savefig(out_name)
@@ -336,7 +367,7 @@ def draw_predictions(objects, prop_2d_axes, prop_3d_axes, p_matrix):
     # Draw filtered ground truth boxes
     for obj in objects:
         # Draw 2D boxes
-        draw_box_2d(prop_2d_axes, obj, color_tm='r')
+        #draw_box_2d(prop_2d_axes, obj, color_tm='r')
 
         # Draw 3D boxes
         draw_box_3d(prop_3d_axes, obj, p_matrix,
