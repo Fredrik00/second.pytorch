@@ -1,0 +1,1 @@
+python ./pytorch/train.py evaluate --config_path=./configs/$1.config --model_dir=/notebooks/second_models/$2 --measure_time=True --batch_size=1 --ckpt_path=/notebooks/second_models/$2/voxelnet-$3.tckpt 2>&1 | tee $2_$3_results.txt

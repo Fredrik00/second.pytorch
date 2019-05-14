@@ -75,8 +75,8 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
 if __name__ == "__main__":
     BACKEND = SecondBackend()
  
-    BACKEND.checkpoint_path = "/notebooks/second_models/all_test/voxelnet-74240.tckpt"
-    BACKEND.config_path = "/notebooks/second_models/all_test/pipeline.config"
+    BACKEND.checkpoint_path = "/notebooks/second_models/carla_carped_finetune/voxelnet-62000.tckpt"
+    BACKEND.config_path = "/notebooks/second_models/carla_carped_finetune/pipeline.config"
 
     image_shape = np.array([375, 1242])
 
