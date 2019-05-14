@@ -299,7 +299,7 @@ def main(BACKEND, image, points, calib, idx):
     The prediction score and IoU with ground truth can be toggled on or off
     as well, shown as (score, IoU) above the detection.
     """
-    annos = inference_by_input(BACKEND, points, calib, image.shape[:2])
+    annos = inference(BACKEND, points, calib, image.shape[:2], idx)
 
     pred_objects = [ObjectLabel() for prediction in annos["labels"]]
 
@@ -408,11 +408,11 @@ def read_calibration(path):
 
 if __name__ == '__main__':
     BACKEND = SecondBackend()
-    BACKEND.checkpoint_path = "/notebooks/second_models/carla_carped/voxelnet-62000.tckpt"
-    BACKEND.config_path = "/notebooks/second_models/carla_carped/pipeline.config"
+    BACKEND.checkpoint_path = "/notebooks/second_models/carla_carped_finetune/voxelnet-62000.tckpt"
+    BACKEND.config_path = "/notebooks/second_models/carla_carped_finetune/pipeline.config"
     build_network(BACKEND)
 
-    for idx in range(100):
+    for idx in range(2000, 2100):
         filename = "%06d" % idx
         dataset = "Arctic"
 
@@ -423,6 +423,6 @@ if __name__ == '__main__':
         num_features = 4
         points = np.fromfile(str(v_path), dtype=np.float32, count=-1).reshape([-1, num_features])
         
-        calib = read_calibration("/notebooks/DATA/" + dataset + "/object/testing/calib/" + filname + ".txt")
+        calib = read_calibration("/notebooks/DATA/" + dataset + "/object/testing/calib/" + filename + ".txt")
 
         main(BACKEND, image, points, calib, idx)
