@@ -30,7 +30,7 @@ def build_network(BACKEND):
     BACKEND.inference_ctx.restore(BACKEND.checkpoint_path)
     print("build_network successful!")
 
-def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape as [h, w]
+def inference_by_input(BACKEND, points, calib, image_shape=None, idx=0): # image shape as [h, w]
     rect = calib['R0_rect']
     P2 = calib['P2']
     Trv2c = calib['Tr_velo_to_cam']
@@ -40,12 +40,12 @@ def inference_by_input(BACKEND, points, calib, image_shape=None): # image shape 
     whwh = np.tile(wh, 2)
 
     t = time.time()
-    inputs = BACKEND.inference_ctx.get_inference_input_dict_v2(calib, image_shape, points)
+    inputs = BACKEND.inference_ctx.get_inference_input_dict_v2(calib, image_shape, points, idx)
     #print("inputs: ", inputs)
     print("input preparation time:", time.time() - t)
     t = time.time()
     with BACKEND.inference_ctx.ctx():
-        dt_annos = BACKEND.inference_ctx.inference(inputs)[0]
+        dt_annos = BACKEND.inference_ctx.inference_to_file(inputs)[0]
     print(dt_annos)
     print("detection time:", time.time() - t)
     dims = dt_annos['dimensions']
@@ -99,4 +99,6 @@ if __name__ == "__main__":
                                         [ 0.000000e+00,  0.000000e+00,  0.000000e+00,  1.000000e+00]])
 
     build_network(BACKEND)
-    inference_by_input(BACKEND, points, calib, image_shape)
+    
+    for idx in range(10):
+        inference_by_input(BACKEND, points, calib, image_shape, idx)
