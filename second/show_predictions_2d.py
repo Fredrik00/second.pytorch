@@ -12,6 +12,9 @@ BOX_COLOUR_SCHEME = {
     'Cyclist': '#FFFF00'        # Yellow
 }
 
+fig_size = (16, 9)
+gt_classes = ['Car', 'Pedestrian']
+
 class ObjectLabel:
     """Object Label Class
     1    type         Describes the type of object: 'Car', 'Van', 'Truck',
@@ -71,7 +74,7 @@ class ObjectLabel:
             return True
 
 
-def visualization(image, display=True, fig_size=(15, 9.15)):
+def visualization(image, display=True):
     """Forms the plot figure and axis for the visualization
 
     Keyword arguments:
@@ -102,7 +105,7 @@ def visualization(image, display=True, fig_size=(15, 9.15)):
     return fig, ax1, ax2
 
 
-def visualization_single_plot(image, display=True, fig_size=(12.9, 3.9)):
+def visualization_single_plot(image, display=True):
     """Forms the plot figure and axis for the visualization
 
     Keyword arguments:
@@ -336,7 +339,6 @@ def main(BACKEND, image, points, calib, idx):
     # Fail if only one object?
     for i in range(len(pred_objects)):
         obj = pred_objects[i]
-
         obj.type = annos["labels"][i]
         obj.truncation = 0  # Not needed
         obj.occlusion = 0  # Not needed
@@ -346,11 +348,6 @@ def main(BACKEND, image, points, calib, idx):
         loc = annos["locs"][i]
         obj.t = (-loc[1], -loc[2] + obj.h/2, loc[0])  # Seems to be in lidar format initially with centroid not on ground plane
         obj.ry = -annos["rots"][i][2]  # Only value not 0, negative seems more correct
-
-    fig_size = (16, 9)
-    gt_classes = ['Car', 'Pedestrian']
-
-    image_size = image.size
 
     #prop_fig, prop_2d_axes, prop_3d_axes = visualization(image, display=False)
     prop_fig, prop_3d_axes = visualization_single_plot(image, display=False)
@@ -374,7 +371,8 @@ def draw_predictions(objects, prop_2d_axes, prop_3d_axes, p_matrix):
                               show_orientation=False,
                               color_table=['r', 'y', 'r', 'w'],
                               line_width=2,
-                              double_line=False)
+                              double_line=False,
+                              box_color=BOX_COLOUR_SCHEME[obj.type] if obj.type in gt_classes else None)
 
 
 def read_calibration(path):
@@ -443,7 +441,7 @@ if __name__ == '__main__':
     BACKEND.config_path = "/notebooks/second_models/carla_carped_finetune/pipeline.config"
     build_network(BACKEND)
 
-    for idx in range(2000, 3000, 5):
+    for idx in range(0, 5709, 20):
         filename = "%06d" % idx
         dataset = "Arctic"
 
