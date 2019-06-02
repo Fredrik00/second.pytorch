@@ -46,7 +46,7 @@ def inference(BACKEND, points, calib, image_shape=None, idx=0): # image shape as
     t = time.time()
     with BACKEND.inference_ctx.ctx():
         dt_annos = BACKEND.inference_ctx.inference(inputs)[0]
-    print(dt_annos)
+    #print(dt_annos)
     print("detection time:", time.time() - t)
     dims = dt_annos['dimensions']
     num_obj = dims.shape[0]
@@ -67,8 +67,8 @@ def inference(BACKEND, points, calib, image_shape=None, idx=0): # image shape as
     annos = {"locs": locs.tolist(), "dims": dims.tolist(), "rots": rots.tolist(), "alpha": dt_annos["alpha"],
             "labels": labels.tolist(), "scores": dt_annos["score"].tolist(), "bbox": dt_annos["bbox"].tolist()}
     
-    print("annos: ", annos)
-    print("Inference complete")
+    #print("annos: ", annos)
+    #print("Inference complete")
 
     return annos
 
@@ -91,7 +91,7 @@ def inference_to_file(BACKEND, points, calib, image_shape=None, idx=0): # image 
         BACKEND.inference_ctx.inference_to_file(inputs)
     print("detection time:", time.time() - t)
     print("Results saved to /notebooks/second_output")
-    print("Inference complete")
+    #print("Inference complete")
 
 if __name__ == "__main__":
     BACKEND = SecondBackend()

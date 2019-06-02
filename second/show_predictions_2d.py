@@ -357,7 +357,6 @@ def main(BACKEND, image, points, calib, idx):
     out_name = "/notebooks/second_output/images/%06d.png" % idx
     plt.savefig(out_name)
     plt.close(prop_fig)
-    print('\nDone')
 
 
 def draw_predictions(objects, prop_2d_axes, prop_3d_axes, p_matrix):
@@ -455,3 +454,4 @@ if __name__ == '__main__':
         calib = read_calibration("/notebooks/DATA/" + dataset + "/object/testing/calib/" + filename + ".txt")
 
         main(BACKEND, image, points, calib, idx)
+        print(idx, '/', 5708)
