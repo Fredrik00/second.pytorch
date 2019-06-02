@@ -347,8 +347,8 @@ def main(BACKEND, image, points, calib, idx):
         obj.t = (-loc[1], -loc[2] + obj.h/2, loc[0])  # Seems to be in lidar format initially with centroid not on ground plane
         obj.ry = -annos["rots"][i][2]  # Only value not 0, negative seems more correct
 
-    fig_size = (10, 6.1)
-    gt_classes = ['Car', 'Pedestrian', 'Cyclist']
+    fig_size = (16, 9)
+    gt_classes = ['Car', 'Pedestrian']
 
     image_size = image.size
 
@@ -443,7 +443,7 @@ if __name__ == '__main__':
     BACKEND.config_path = "/notebooks/second_models/carla_carped_finetune/pipeline.config"
     build_network(BACKEND)
 
-    for idx in range(2000, 2100):
+    for idx in range(2000, 3000, 5):
         filename = "%06d" % idx
         dataset = "Arctic"
 
