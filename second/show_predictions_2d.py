@@ -322,7 +322,7 @@ def draw_box_3d(ax, obj, p, show_orientation=True,
 
 
 def main(BACKEND, image, points, calib, idx):
-    """This demo shows RPN proposals and AVOD predictions in 3D
+    """This demo shows RPN proposals and SECOND predictions in 3D
     and 2D in image space. Given certain thresholds for proposals
     and predictions, it selects and draws the bounding boxes on
     the image sample. It goes through the entire proposal and
@@ -345,7 +345,7 @@ def main(BACKEND, image, points, calib, idx):
         obj.alpha = annos["alpha"][i]  # Not needed
         obj.x1, obj.y1, obj.x2, obj.y2 = annos["bbox"][i]
         #obj.w, obj.l, obj.h = annos["dims"][i]  # Different order from Kitti
-        obj.h, obj.l, obj.w = annos["dims"][i]
+        obj.l, obj.h, obj.w = annos["dims"][i]
         obj.t = annos["locs"][i]
         #loc = annos["locs"][i]
         #obj.t = (-loc[1], -loc[2] + obj.h/2, loc[0])  # Seems to be in lidar format initially with centroid not on ground plane
@@ -438,11 +438,12 @@ def read_calibration(path):
 
 if __name__ == '__main__':
     BACKEND = SecondBackend()
-    BACKEND.checkpoint_path = "/notebooks/second_models/carla_carped_finetune/voxelnet-62000.tckpt"
-    BACKEND.config_path = "/notebooks/second_models/carla_carped_finetune/pipeline.config"
+    BACKEND.checkpoint_path = "/notebooks/second_models/carla_carped_finetune_v2/voxelnet-72000.tckpt"
+    BACKEND.config_path = "/notebooks/second_models/carla_carped_finetune_v2/pipeline.config"
     build_network(BACKEND)
 
     for idx in range(0, 5709, 20):
+    #for idx in range(980, 981):
         filename = "%06d" % idx
         dataset = "Arctic"
 
