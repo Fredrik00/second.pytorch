@@ -57,12 +57,15 @@ def inference(BACKEND, points, calib, image_shape=None, idx=0): # image shape as
 
     dt_boxes_camera = np.concatenate(
         [loc, dims, rots[..., np.newaxis]], axis=1)
-    dt_boxes = box_np_ops.box_camera_to_lidar(
-        dt_boxes_camera, rect, Trv2c)
-    box_np_ops.change_box3d_center_(dt_boxes, src=[0.5, 0.5, 0], dst=[0.5, 0.5, 0.5])
-    locs = dt_boxes[:, :3]
-    dims = dt_boxes[:, 3:6]
-    rots = np.concatenate([np.zeros([num_obj, 2], dtype=np.float32), -dt_boxes[:, 6:7]], axis=1)
+    #dt_boxes = box_np_ops.box_camera_to_lidar(
+    #    dt_boxes_camera, rect, Trv2c)
+    #box_np_ops.change_box3d_center_(dt_boxes, src=[0.5, 0.5, 0], dst=[0.5, 0.5, 0.5])
+    #locs = dt_boxes[:, :3]
+    #dims = dt_boxes[:, 3:6]
+    #rots = np.concatenate([np.zeros([num_obj, 2], dtype=np.float32), -dt_boxes[:, 6:7]], axis=1)
+    locs = dt_boxes_camera[:, :3]
+    dims = dt_boxes_camera[:, 3:6]
+    rots = np.concatenate([np.zeros([num_obj, 2], dtype=np.float32), -dt_boxes_camera[:, 6:7]], axis=1)
 
     annos = {"locs": locs.tolist(), "dims": dims.tolist(), "rots": rots.tolist(), "alpha": dt_annos["alpha"],
             "labels": labels.tolist(), "scores": dt_annos["score"].tolist(), "bbox": dt_annos["bbox"].tolist()}
