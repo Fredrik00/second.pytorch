@@ -3,6 +3,15 @@ SECOND-V1.5 detector.
 
 ONLY support python 3.6+, pytorch 1.0.0+. Tested in Ubuntu 16.04/18.04.
 
+## Additions after fork
+This code has been used as part of testing on pre-training using simulated data and fine-tuning using real data. Some additions have been made to support our experimentation:
+- By default our configurations expects the datasets to exist under /notebooks/DATA. If using a docker container for SECOND, this directory containing DATA can simply be mounted to the cointainer as /notebooks.
+- Training and evaluation now uses the training files stored with the dataset, rather than included with this code.
+- Evaluation now supports sequantially evaluating all stored checkpoints using --eval_all=True.
+- Includes shell scripts for more easily starting training or evaluation using our standard setup using train.sh for training, trainval.sh for training followed by evaluation or eval.sh for evaluation. Inputs to these scripts are name of config file used and name of model saved (by default under /notebooks/second_models). For example when training using cars.config this could be ./trainval.sh cars cars_test.
+- Added support for online inference using online_inference.py. If used in a loop, SECOND can restore a checkpoint once and be feed files for inference (or binary lidar matrices, calibration matrices and image shape directly from for example a ROS callback) directly without preprocessing a datset first and generate output labels.
+- Added support for drawing 3D boudning boxes of inference using show_predictions_2d.py. The code first performs inference, then uses the generated annotations to draw images and save them under /notebooks/second_output/images (must create empty folder first) when provided with the binary lidar matrices, calibration matrices and image shape.
+
 ## News
 
 2019-1-20: SECOND V1.5 released! See [release notes](RELEASE.md) for more details.
