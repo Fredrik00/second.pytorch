@@ -13,9 +13,9 @@ This code has been used as part of testing on pre-training using simulated data 
 - Added support for drawing 3D boudning boxes of inference using show_predictions_2d.py. The code first performs inference, then uses the generated annotations to draw images and save them under /notebooks/second_output/images (must create empty folder first) when provided with the binary lidar matrices, calibration matrices and image shape.
 
 ## Pre-trained models and CADET dataset
-Our CADET dataset used for testing can be downloaded from: https://studntnu.sharepoint.com/:u:/s/teamsite2/10199/EfudfwtiCqFOqUcFWTKcUkEBCJeIQIYHGT83_dRQA4w2fQ?e=IfzAqE 
+Our CADET dataset used for testing can be downloaded from: https://studntnu.sharepoint.com/:u:/s/teamsite2/10199/EfudfwtiCqFOqUcFWTKcUkEBCJeIQIYHGT83_dRQA4w2fQ?e=IfzAqE   
 Pre-trained models for SECOND can be downloaded from:  
-https://studntnu.sharepoint.com/:f:/s/teamsite2/10199/Ev0NWJBBh7ROjwru_WAPjvkBTIG0hU7P55rI-tWaBA0u_g?e=gE1fa5
+https://studntnu.sharepoint.com/:f:/s/teamsite2/10199/Ev0NWJBBh7ROjwru_WAPjvkBTIG0hU7P55rI-tWaBA0u_g?e=gE1fa5  
 NOTE: Not all tested models are included above, and more will be uploaded in the following weeks.
 
 ## News
