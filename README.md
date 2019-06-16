@@ -12,6 +12,12 @@ This code has been used as part of testing on pre-training using simulated data 
 - Added support for online inference using online_inference.py. If used in a loop, SECOND can restore a checkpoint once and be feed files for inference (or binary lidar matrices, calibration matrices and image shape directly from for example a ROS callback) directly without preprocessing a datset first and generate output labels.
 - Added support for drawing 3D boudning boxes of inference using show_predictions_2d.py. The code first performs inference, then uses the generated annotations to draw images and save them under /notebooks/second_output/images (must create empty folder first) when provided with the binary lidar matrices, calibration matrices and image shape.
 
+## Pre-trained models and CADET dataset
+Our CADET dataset used for testing can be downloaded from: https://studntnu.sharepoint.com/:u:/s/teamsite2/10199/EfudfwtiCqFOqUcFWTKcUkEBCJeIQIYHGT83_dRQA4w2fQ?e=IfzAqE 
+Pre-trained models for SECOND can be downloaded from:  
+https://studntnu.sharepoint.com/:f:/s/teamsite2/10199/Ev0NWJBBh7ROjwru_WAPjvkBTIG0hU7P55rI-tWaBA0u_g?e=gE1fa5
+NOTE: Not all tested models are included above, and more will be uploaded in the following weeks.
+
 ## News
 
 2019-1-20: SECOND V1.5 released! See [release notes](RELEASE.md) for more details.
